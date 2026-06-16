@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My Interview Coach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink:      #0E1116;
+    --surface:  #171B22;
+    --surface2: #1F242E;
+    --border:   #2A3140;
+    --text:     #E7EAF0;
+    --muted:    #8A93A3;
+    --gold:     #F2B84B;
+    --gold-dim: #C9963A;
+    --teal:     #4FD1C5;
+    --radius:   14px;
+    --maxw:     760px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1100px 600px at 80% -10%, rgba(242,184,75,0.07), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(79,209,197,0.06), transparent 60%),
+      var(--ink);
+    color: var(--text);
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
+
+  /* ---------- Top bar ---------- */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(14,17,22,0.82);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 20px 12px;
+    max-width: var(--maxw);
+    margin: 0 auto;
+  }
+  .brand .dot {
+    width: 11px; height: 11px; border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 0 4px rgba(242,184,75,0.15);
+    flex: none;
+  }
+  .brand h1 {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.2px;
+    margin: 0;
+  }
+  .brand .tag {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.3px;
+  }
+
+  /* ---------- Tabs ---------- */
+  nav {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    display: flex;
+    gap: 4px;
+    padding: 0 12px 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  .tab {
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color .15s, background .15s;
+  }
+  .tab:hover { color: var(--text); }
+  .tab[aria-selected="true"] {
+    color: var(--ink);
+    background: var(--gold);
+    font-weight: 600;
+  }
+  .tab:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+  /* ---------- Panels ---------- */
+  main { padding: 28px 0 80px; }
+  .panel { display: none; animation: fade .3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin: 0 0 14px;
+  }
+
+  /* ---------- Welcome hero ---------- */
+  .hero h2 {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: clamp(34px, 8vw, 52px);
+    line-height: 1.05;
+    letter-spacing: -0.5px;
+    margin: 0 0 18px;
+  }
+  .hero h2 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .lede {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 56ch;
+    margin: 0 0 28px;
+  }
+
+  /* Countdown chip */
+  .countdown {
+    display: inline-flex;
+    align-items: stretch;
+    gap: 2px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 36px;
+  }
+  .cd-label {
+    align-self: center;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.4px;
+    padding-right: 14px;
+    margin-right: 4px;
+    border-right: 1px solid var(--border);
+    max-width: 120px;
+    line-height: 1.3;
+  }
+  .cd-unit { text-align: center; padding: 0 10px; }
+  .cd-num {
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 700;
+    font-size: 30px;
+    color: var(--text);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .cd-tag {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  /* What's inside */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+  }
+  .card .k {
+    font-size: 13px;
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    margin: 0 0 6px;
+  }
+  .card .v { font-size: 14px; color: var(--muted); margin: 0; }
+
+  .pep {
+    margin-top: 28px;
+    padding: 22px;
+    border-radius: var(--radius);
+    border: 1px solid var(--gold-dim);
+    background: linear-gradient(180deg, rgba(242,184,75,0.10), rgba(242,184,75,0.02));
+  }
+  .pep p {
+    margin: 0;
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  .pep .sig {
+    display: block;
+    margin-top: 10px;
+    font-family: "Inter", sans-serif;
+    font-style: normal;
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.3px;
+  }
+
+  /* ---------- Study Notes ---------- */
+  .notes-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+  .notes-head h2 {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: clamp(26px, 6vw, 34px);
+    margin: 0;
+    letter-spacing: -0.4px;
+  }
+  .btn {
+    appearance: none;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: border-color .15s, color .15s;
+  }
+  .btn:hover { border-color: var(--gold); color: var(--gold); }
+  .btn:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+  .acc { border-top: 1px solid var(--border); }
+  .acc-item { border-bottom: 1px solid var(--border); }
+  .acc-btn {
+    appearance: none;
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font: inherit;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 4px;
+    cursor: pointer;
+  }
+  .acc-btn:focus-visible { outline: 2px solid var(--teal); outline-offset: -2px; border-radius: 6px; }
+  .acc-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    color: var(--gold);
+    font-weight: 700;
+    flex: none;
+    width: 26px;
+  }
+  .acc-title {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: 19px;
+    flex: 1;
+    line-height: 1.25;
+  }
+  .acc-chev {
+    flex: none;
+    color: var(--muted);
+    transition: transform .2s;
+    font-size: 14px;
+  }
+  .acc-btn[aria-expanded="true"] .acc-chev { transform: rotate(180deg); color: var(--gold); }
+  .acc-body { display: none; padding: 0 4px 24px 44px; }
+  .acc-body.open { display: block; }
+  .acc-body p { margin: 0 0 12px; color: var(--text); }
+  .acc-body p.muted { color: var(--muted); }
+  .acc-body h4 {
+    font-size: 14px;
+    letter-spacing: 0.3px;
+    color: var(--gold);
+    margin: 18px 0 8px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .acc-body h4:first-child { margin-top: 0; }
+  .acc-body ul { margin: 0 0 12px; padding-left: 18px; }
+  .acc-body li { margin-bottom: 7px; color: var(--text); }
+  .acc-body li b { color: var(--gold); font-weight: 600; }
+  .stat-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 14px; }
+  .stat {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  .stat b { font-family: "JetBrains Mono", monospace; color: var(--teal); }
+  .qa {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .qa .q { font-weight: 600; margin: 0 0 4px; }
+  .qa .a { margin: 0; color: var(--muted); font-size: 14px; }
+
+  @media print {
+    header, .btn { display: none !important; }
+    body { background: #fff; color: #000; }
+    .panel { display: block !important; }
+    #welcome, #flash, #questions, #gameday { display: none !important; }
+    .acc-body { display: block !important; }
+    .acc-chev { display: none; }
+    .acc-num, .acc-title, .acc-body h4 { color: #000; }
+    .stat, .qa, .card { border-color: #ccc; }
+  }
+
+  /* ---------- Flashcards ---------- */
+  .fc-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 16px; margin-bottom: 18px; flex-wrap: wrap;
+  }
+  .fc-head h2 {
+    font-family: "Fraunces", serif; font-weight: 600;
+    font-size: clamp(26px, 6vw, 34px); margin: 0; letter-spacing: -0.4px;
+  }
+  .fc-head .hint { color: var(--muted); font-size: 13px; }
+
+  .deck-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 10px; margin-bottom: 26px;
+  }
+  .deck-card {
+    appearance: none; text-align: left; cursor: pointer;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 13px 15px; color: var(--text);
+    font: inherit; display: flex; flex-direction: column; gap: 4px;
+    transition: border-color .15s, transform .1s;
+  }
+  .deck-card:hover { border-color: var(--gold-dim); }
+  .deck-card:active { transform: scale(0.99); }
+  .deck-card:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .deck-card[aria-pressed="true"] {
+    border-color: var(--gold);
+    background: linear-gradient(180deg, rgba(242,184,75,0.10), rgba(242,184,75,0.02));
+  }
+  .deck-card .dn {
+    display: flex; align-items: center; gap: 8px;
+    font-weight: 600; font-size: 14px; line-height: 1.3;
+  }
+  .deck-card .dnum {
+    font-family: "JetBrains Mono", monospace; font-size: 12px;
+    color: var(--gold); flex: none;
+  }
+  .deck-card .dc { font-size: 12px; color: var(--muted); }
+
+  .stage-title {
+    font-family: "Fraunces", serif; font-weight: 600; font-size: 18px;
+    margin: 0 0 12px; color: var(--gold);
+  }
+  .flip-card {
+    perspective: 1400px; width: 100%; cursor: pointer;
+    margin-bottom: 16px; -webkit-tap-highlight-color: transparent;
+  }
+  .flip-inner {
+    position: relative; width: 100%; min-height: 240px;
+    transform-style: preserve-3d; transition: transform .5s ease;
+  }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-face {
+    position: absolute; inset: 0; backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 16px; border: 1px solid var(--border);
+    padding: 28px 26px; display: flex; flex-direction: column;
+    justify-content: center; align-items: center; text-align: center;
+  }
+  .flip-front { background: var(--surface); }
+  .flip-back {
+    transform: rotateY(180deg);
+    background: linear-gradient(180deg, var(--surface2), var(--surface));
+    border-color: var(--gold-dim);
+  }
+  .flip-tag {
+    position: absolute; top: 14px; left: 16px;
+    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--muted); font-weight: 600;
+  }
+  .flip-front .flip-tag { color: var(--gold); }
+  .flip-q { font-family: "Fraunces", serif; font-weight: 600; font-size: 21px; line-height: 1.35; }
+  .flip-a { font-size: 15px; line-height: 1.55; color: var(--text); }
+  .flip-hint { position: absolute; bottom: 12px; right: 16px; font-size: 11px; color: var(--muted); }
+
+  .fc-controls { display: flex; align-items: center; gap: 8px; }
+  .fc-controls .spacer { flex: 1; }
+  .icon-btn {
+    appearance: none; border: 1px solid var(--border); background: var(--surface);
+    color: var(--text); width: 42px; height: 42px; border-radius: 50%;
+    font-size: 18px; cursor: pointer; transition: border-color .15s, color .15s;
+    display: flex; align-items: center; justify-content: center; flex: none;
+  }
+  .icon-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .icon-btn:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .fc-progress {
+    font-family: "JetBrains Mono", monospace; font-size: 13px;
+    color: var(--muted); min-width: 92px; text-align: center;
+  }
+  .fc-empty { color: var(--muted); text-align: center; padding: 40px 0; }
+
+  @media (max-width: 540px) {
+    .deck-grid { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .flip-inner { transition: none; }
+  }
+
+  /* ---------- Questions to Ask ---------- */
+  .qa-intro { color: var(--muted); margin-bottom: 18px; max-width: 62ch; }
+  .qa-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .qa-chip {
+    appearance: none; border: 1px solid var(--border); background: var(--surface);
+    color: var(--muted); font: inherit; font-size: 13px; font-weight: 500;
+    padding: 7px 13px; border-radius: 999px; cursor: pointer;
+    transition: color .15s, background .15s, border-color .15s;
+  }
+  .qa-chip:hover { color: var(--text); border-color: var(--gold-dim); }
+  .qa-chip[aria-pressed="true"] { background: var(--gold); color: var(--ink); border-color: var(--gold); font-weight: 600; }
+  .qa-chip:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .q-count { color: var(--muted); font-size: 13px; margin-bottom: 14px; font-family: "JetBrains Mono", monospace; }
+  .qbank { display: flex; flex-direction: column; gap: 10px; }
+  .q-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-left: 3px solid var(--gold); border-radius: 12px; padding: 14px 16px;
+  }
+  .q-cat { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); font-weight: 600; margin: 0 0 6px; }
+  .q-text { font-family: "Fraunces", serif; font-weight: 600; font-size: 17px; line-height: 1.35; margin: 0 0 6px; }
+  .q-why { font-size: 13px; color: var(--muted); margin: 0; }
+  .q-toggle { appearance: none; margin-top: 11px; background: transparent; border: none; color: var(--teal); font: inherit; font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; padding: 4px 0; }
+  .q-toggle:hover { color: var(--text); }
+  .q-toggle:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; border-radius: 4px; }
+  .q-arrow { font-size: 9px; transition: transform .2s; }
+  .q-toggle[aria-expanded="true"] .q-arrow { transform: rotate(180deg); }
+  .q-resp-body { display: none; margin-top: 8px; padding: 11px 13px; background: var(--surface2); border: 1px solid var(--border); border-radius: 9px; }
+  .q-resp-body.open { display: block; }
+  .q-resp-text { margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--text); }
+
+  /* ---------- Game Day ---------- */
+  .gd-countdown {
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+    background: linear-gradient(180deg, var(--surface2), var(--surface));
+    border: 1px solid var(--gold-dim); border-radius: 16px;
+    padding: 24px 18px; margin-bottom: 10px;
+  }
+  .gd-cd-unit { text-align: center; min-width: 62px; }
+  .gd-cd-num {
+    font-family: "JetBrains Mono", monospace; font-weight: 700;
+    font-size: clamp(34px, 9vw, 52px); color: var(--gold); line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .gd-cd-tag { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+  .gd-cd-sep { font-family: "JetBrains Mono", monospace; font-size: 30px; color: var(--border); }
+  .gd-when { text-align: center; color: var(--muted); font-size: 13px; margin: 0 0 28px; }
+
+  .checklist {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 16px 18px; margin-bottom: 12px;
+  }
+  .cl-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .cl-head h4 { font-family: "Fraunces", serif; font-weight: 600; font-size: 17px; margin: 0; }
+  .cl-count { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--muted); }
+  .cl-row { display: flex; gap: 11px; align-items: flex-start; padding: 7px 0; cursor: pointer; }
+  .cl-row input {
+    appearance: none; width: 19px; height: 19px; border: 1.5px solid var(--border);
+    border-radius: 6px; flex: none; margin: 2px 0 0; cursor: pointer; position: relative;
+    transition: background .15s, border-color .15s;
+  }
+  .cl-row input:checked { background: var(--gold); border-color: var(--gold); }
+  .cl-row input:checked::after {
+    content: "\2713"; position: absolute; inset: 0; display: flex;
+    align-items: center; justify-content: center; color: var(--ink); font-size: 12px; font-weight: 700;
+  }
+  .cl-row input:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .cl-row span { font-size: 14px; line-height: 1.45; }
+  .cl-row.done span { color: var(--muted); text-decoration: line-through; }
+
+  .hl-list { list-style: none; padding: 0; margin: 0 0 30px; display: flex; flex-direction: column; gap: 9px; }
+  .hl-list li { font-size: 14px; line-height: 1.5; padding-left: 18px; position: relative; color: var(--text); }
+  .hl-list li::before { content: "\203A"; position: absolute; left: 0; color: var(--gold); font-weight: 700; }
+  .hl-list li b { color: var(--gold); font-weight: 600; }
+
+  /* Placeholder for not-yet-built sections */
+  .soon {
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 40px 24px;
+    text-align: center;
+    color: var(--muted);
+  }
+  .soon h2 {
+    font-family: "Fraunces", serif;
+    color: var(--text);
+    font-weight: 600;
+    margin: 0 0 8px;
+  }
+
+  @media (max-width: 540px) {
+    .grid { grid-template-columns: 1fr; }
+    .brand .tag { display: none; }
+    .countdown { width: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .panel { animation: none; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span class="dot" aria-hidden="true"></span>
+      <h1>My Interview Coach</h1>
+      <span class="tag">Prep · Practice · Show up ready</span>
+    </div>
+    <nav role="tablist" aria-label="Sections">
+      <button class="tab" role="tab" id="tab-welcome"   aria-selected="true"  aria-controls="welcome">Welcome</button>
+      <button class="tab" role="tab" id="tab-notes"     aria-selected="false" aria-controls="notes">Study Notes</button>
+      <button class="tab" role="tab" id="tab-flash"     aria-selected="false" aria-controls="flash">Flashcards</button>
+      <button class="tab" role="tab" id="tab-questions" aria-selected="false" aria-controls="questions">Questions to Ask</button>
+      <button class="tab" role="tab" id="tab-gameday"   aria-selected="false" aria-controls="gameday">Game Day</button>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <!-- WELCOME -->
+    <section class="panel active" id="welcome" role="tabpanel" aria-labelledby="tab-welcome">
+      <div class="hero">
+        <p class="eyebrow">Your prep room</p>
+        <h2>Walk in <em>ready</em>, not hoping.</h2>
+        <p class="lede">Everything you need to prepare for the big day, in one place. Review your notes, drill the flashcards, line up sharp questions, and tick off the final checklist — so on game day, the only thing left to do is show up.</p>
+
+        <div class="countdown" id="countdown" aria-live="polite">
+          <span class="cd-label">Time until your interview</span>
+          <div class="cd-unit"><div class="cd-num" id="cd-d">--</div><div class="cd-tag">Days</div></div>
+          <div class="cd-unit"><div class="cd-num" id="cd-h">--</div><div class="cd-tag">Hrs</div></div>
+          <div class="cd-unit"><div class="cd-num" id="cd-m">--</div><div class="cd-tag">Min</div></div>
+        </div>
+
+        <div class="grid">
+          <div class="card"><p class="k">Study Notes</p><p class="v">The facts, the role, the company — organized so it sticks.</p></div>
+          <div class="card"><p class="k">Flashcards</p><p class="v">Four decks. Tap to flip, shuffle, and drill until it's automatic.</p></div>
+          <div class="card"><p class="k">Questions to Ask</p><p class="v">Sharp questions that make the room think — pick one or two.</p></div>
+          <div class="card"><p class="k">Game Day</p><p class="v">A checklist for the night before and the morning of. No surprises.</p></div>
+        </div>
+
+        <div class="pep">
+          <p>“I have done the work. I know the role, I know the room, and I am ready. I am not here hoping for an offer — I am here to confirm this is the right next step.”
+          <span class="sig">— Read this before you walk in.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STUDY NOTES -->
+    <section class="panel" id="notes" role="tabpanel" aria-labelledby="tab-notes">
+      <p class="eyebrow">Know it cold</p>
+      <div class="notes-head">
+        <h2>Study Notes</h2>
+        <button class="btn" id="printNotes">🖨 Print notes</button>
+      </div>
+
+      <div class="acc" id="acc">
+
+        <!-- 1 -->
+        <div class="acc-item">
+          <button class="acc-btn" aria-expanded="false"><span class="acc-num">01</span><span class="acc-title">Walmart Global Tech — the deep dive</span><span class="acc-chev">▼</span></button>
+          <div class="acc-body">
+            <h4>Who they are</h4>
+            <p>Walmart Global Tech is the technology arm of <b>Walmart Inc. (NYSE: WMT)</b> — the company behind the world's largest retailer. Their framing: a <b>"people-led and tech-powered"</b> organization where one line of code can improve life for hundreds of millions of people. Roots in Bentonville, Arkansas (Sam Walton opened the first store in 1962), with major tech hubs in Sunnyvale CA, Bellevue WA, Reston VA, and a large India Development Center.</p>
+            <h4>Scale (FY2026)</h4>
+            <div class="stat-row">
+              <span class="stat">Revenue <b>&gt;$700B</b></span>
+              <span class="stat">eCommerce <b>&gt;$150B</b> (+24%)</span>
+              <span class="stat">Advertising <b>+46%</b></span>
+              <span class="stat">Membership fees <b>&gt;$4.3B</b></span>
+              <span class="stat">Associates <b>~2.1M</b></span>
+            </div>
+            <h4>The strategic story (say this)</h4>
+            <p>Walmart has transformed from a brick-and-mortar discounter into a tech-driven omnichannel ecosystem — growth now comes from high-margin streams: digital advertising, marketplace, fulfillment services (WFS), and automated supply chain. By early 2026, ~65% of stores are automated for fulfillment. The next chapter is explicitly <b>AI-driven</b> — that's your north star for any innovation question.</p>
+            <h4>Signals worth name-dropping</h4>
+            <ul>
+              <li>New <b>EVP of AI Acceleration, Product & Design</b> role created — AI is now a top-line org priority, not a side project.</li>
+              <li>Public work on <b>agentic systems</b> "built for control, trust and scale."</li>
+              <li>Bringing restaurant ordering & delivery into the core Walmart shopping experience (June 2026).</li>
+              <li>Supply chain diversifying from China toward India and Southeast Asia.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 2: TEAM -->
+        <div class="acc-item">
+          <button class="acc-btn" aria-expanded="false"><span class="acc-num">02</span><span class="acc-title">Your team: Retail Services (Walmart Business / B2B)</span><span class="acc-chev">▼</span></button>
+          <div class="acc-body">
+            <p>This role sits in <b>Retail Services</b>, the org spanning Payments through <b>Walmart Business</b> (Walmart's B2B arm). It leans on fulfillment centers, stores, and merchants to grow a newer, fast-expanding part of Walmart. Treat it as a startup inside the enterprise — the JD calls for an <b>"intrapreneurial spirit"</b> and <b>rapid program execution</b>.</p>
+            <h4>The four focus areas (memorize these)</h4>
+            <ul>
+              <li><b>Business-friendly purchasing</b> — buying capabilities built for organizations, not households.</li>
+              <li><b>Onboarding & marketing</b> — acquiring and activating business customers.</li>
+              <li><b>Business customer support & operations</b> — servicing B2B accounts at scale.</li>
+              <li><b>Business engagement & monetization</b> — deepening usage and turning it into revenue.</li>
+            </ul>
+            <h4>Why it matters in the interview</h4>
+            <p class="muted">Walmart Business is a deliberate bet to compete in B2B (think Amazon Business). Show you understand B2B buyers differ from consumers — approvals, spend controls, invoicing, multi-user accounts. If you have retail eCommerce, B2B, or fulfillment-tech experience, lead with it; the JD names it explicitly.</p>
+            <p class="muted">Note: this posting states <b>immigration sponsorship is not included</b> — good to be aware of, no need to raise it unless asked.</p>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="acc-item">
+          <button class="acc-btn" aria-expanded="false"><span class="acc-num">03</span><span class="acc-title">Leadership to know by name</span><span class="acc-chev">▼</span></button>
+          <div class="acc-body">
+            <ul>
+              <li><b>John Furner</b> — President & CEO of Walmart Inc. (effective Feb 1, 2026). Started as an hourly associate in 1993; led Walmart U.S. and Sam's Club. His line: a "new retail era fueled by innovation and AI."</li>
+              <li><b>Doug McMillon</b> — Retired as CEO Jan 31, 2026 after a decade; remains on the board. Led the digital/eCommerce transformation. (Good context, don't dwell.)</li>
+              <li><b>Suresh Kumar</b> — EVP, <b>Global CTO & Chief Development Officer</b>. He runs Walmart Global Tech — your top of house.</li>
+              <li><b>Daniel Danker</b> — EVP, <b>AI Acceleration, Product & Design</b>. The clearest signal of where investment is going.</li>
+              <li><b>John David Rainey</b> — EVP & CFO. Frames everything in cost-to-serve and profitable growth.</li>
+              <li><b>Greg Penner</b> — Chairman of the Board.</li>
+            </ul>
+            <p class="muted">Tip: tie your answers to Furner's "innovation and AI" framing and Kumar's "high tech with high empathy." It shows you read the room above the role.</p>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="acc-item">
+          <button class="acc-btn" aria-expanded="false"><span class="acc-num">04</span><span class="acc-title">The Principal TPM role, decoded</span><span class="acc-chev">▼</span></button>
+          <div class="acc-body">
+            <p class="muted">Straight from this posting: you'll "spearhead some of the most complex and challenging programs," interacting with <b>executive leaders, boots on the ground, and everyone in between.</b> Four responsibilities, four things they're really testing:</p>
+            <div class="qa"><p class="q">Usher large, complex projects through discovery & planning with business, product, and UX</p><p class="a">They're testing whether you operate <i>upstream</i> — shaping fuzzy ideas into scoped programs, not just executing tickets. Bring a story of taking something ambiguous to a funded, planned program.</p></div>
+            <div class="qa"><p class="q">Coordinate across several engineering teams to build the right solutions mapped to business strategy</p><p class="a">Testing cross-team orchestration + technical judgment. Show how you connected what got built back to a business goal — and killed or redirected work that didn't.</p></div>
+            <div class="qa"><p class="q">Build cross-functional program plans; manage risk at program & portfolio level; drive execution</p><p class="a">Testing your core TPM craft at scale — RAID, dependencies, critical path, status that executives trust. Have metrics: how you improved predictability or de-risked a slip.</p></div>
+            <div class="qa"><p class="q">As a Principal, lead the TPMs and continuously improve processes & execution models</p><p class="a">Testing leadership and standard-setting. Have a story where you raised the bar for a team of PMs/TPMs — a framework, a cadence, or a coaching win.</p></div>
+            <p class="muted">Thread to pull through every answer: <b>intrapreneurial speed inside a huge enterprise.</b> They want someone who moves fast without breaking the org.</p>
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="acc-item">
+          <button class="acc-btn" aria-expanded="false"><span class="acc-num">05</span><span class="acc-title">Requirements checklist</span><span class="acc-chev">▼</span></button>
+          <div class="acc-body">
+            <p class="muted">The JD's "what you'll bring" is shorter than most Walmart postings — which means each line carries weight. Have a proof point for every one:</p>
+            <ul>
+              <li><b>Deep software engineering + TPM experience</b> — not just process. Be ready to go technical: architecture, services/APIs, trade-offs. Have a story where your engineering background changed a decision.</li>
+              <li><b>Intrapreneurial spirit + rapid execution in a complex enterprise</b> — show you ship fast without ignoring the org. A story of cutting through bureaucracy to deliver lands perfectly here.</li>
+              <li><b>Retail eCommerce, B2B, or fulfillment tech experience</b> — explicitly named. Map your background to one of these three and lead with it.</li>
+              <li><b>Collaborative, "works with awesome people"</b> — culture-fit signal. Bring warmth and a partnership mindset, not lone-hero stories.</li>
+            </ul>
+            <h4>Good to have ready anyway</h4>
+            <ul>
+              <li>Jira / dashboards / roadmaps — how you made delivery transparent for leadership.</li>
+              <li>A risk-and-portfolio example with real numbers.</li>
+              <li>Comp context — Principal TPM base varies by hub (often ~$95K–$165K+), plus bonus, stock, 401(k) match. Know your number.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 5 -->
+        <div class="acc-item">
+          <button class="acc-btn" aria-expanded="false"><span class="acc-num">06</span><span class="acc-title">TPM concepts to know cold</span><span class="acc-chev">▼</span></button>
+          <div class="acc-body">
+            <ul>
+              <li><b>Program vs project</b> — a project delivers one outcome; a program coordinates many related projects toward a shared strategic goal. Principal TPMs live at the program/portfolio level.</li>
+              <li><b>Critical path</b> — the longest chain of dependent tasks that sets the minimum program duration. Slip here = slip everywhere.</li>
+              <li><b>Dependency management</b> — mapping and sequencing cross-team handoffs; the #1 source of large-program delay.</li>
+              <li><b>RAID log</b> — Risks, Assumptions, Issues, Dependencies. The TPM's core tracking artifact.</li>
+              <li><b>Stage gates</b> — go/no-go checkpoints between phases; how you control scope and quality at scale.</li>
+              <li><b>SDLC</b> — Requirements → Design → Development → Testing → Deployment → Maintenance. Know where your programs touch each.</li>
+              <li><b>Agile / Scrum / SAFe</b> — Sprints and ceremonies at team level; SAFe (PIs, ARTs) for coordinating many teams on a shared cadence.</li>
+              <li><b>OKRs</b> — Objectives (ambitious, qualitative) + Key Results (measurable). How strategy maps to delivery.</li>
+              <li><b>Cycle time vs lead time</b> — cycle time is what the team controls; lead time is what the customer experiences.</li>
+              <li><b>Blameless postmortem</b> — incident review focused on systems, not people. Signals engineering maturity.</li>
+              <li><b>Non-functional requirements</b> — scalability, reliability, latency, security. At Walmart's scale these are first-class, not afterthoughts.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 6 -->
+        <div class="acc-item">
+          <button class="acc-btn" aria-expanded="false"><span class="acc-num">07</span><span class="acc-title">Walmart culture & values</span><span class="acc-chev">▼</span></button>
+          <div class="acc-body">
+            <h4>The four core values</h4>
+            <ul>
+              <li><b>Service to the Customer</b> — every decision traces back to the customer/member.</li>
+              <li><b>Respect for the Individual</b> — associates first; "high tech with high empathy."</li>
+              <li><b>Strive for Excellence</b> — raise the bar, sense of urgency, never settle.</li>
+              <li><b>Act with Integrity</b> — do the right thing, ethically and transparently.</li>
+            </ul>
+            <h4>Cultural reflexes to mirror</h4>
+            <ul>
+              <li><b>EDLP mindset</b> — Everyday Low Price means relentless focus on cost-to-serve. Frame efficiency wins this way.</li>
+              <li><b>Bias for action</b> — Walmart prizes speed and ownership over perfect plans.</li>
+              <li><b>Servant leadership</b> — leaders started on the floor; humility plays well.</li>
+              <li><b>Customer obsession at scale</b> — "what does this do for 240M weekly customers?" is a great lens for any answer.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 7 -->
+        <div class="acc-item">
+          <button class="acc-btn" aria-expanded="false"><span class="acc-num">08</span><span class="acc-title">Talking points — connect your answers to Walmart</span><span class="acc-chev">▼</span></button>
+          <div class="acc-body">
+            <div class="qa"><p class="q">On managing large programs</p><p class="a">Tie it to Walmart's scale: a delivery slip isn't a ticket, it's millions of customers and associates affected. Predictability is a customer-experience metric here.</p></div>
+            <div class="qa"><p class="q">On AI</p><p class="a">Reference the new AI Acceleration org and agentic-systems work. Talk about how TPMs adapt delivery for AI — shorter feedback loops, hypothesis-driven milestones, evaluation gates instead of pure story points.</p></div>
+            <div class="qa"><p class="q">On stakeholder management</p><p class="a">Walmart programs span product, engineering, design, business, and partner platform teams. Show a framework for alignment: clear RACI, regular review cadence, single source of truth.</p></div>
+            <div class="qa"><p class="q">On technical depth</p><p class="a">The JD explicitly wants you contributing to architecture decisions. Have one story where you understood the system well enough to challenge a design and de-risk delivery.</p></div>
+            <div class="qa"><p class="q">On scale & reliability</p><p class="a">Connect to supply-chain automation and omnichannel — at Walmart, non-functional requirements (reliability, scale) are the program, not a footnote.</p></div>
+            <div class="qa"><p class="q">On why Walmart</p><p class="a">"A new retail era fueled by innovation and AI" (Furner) + "high tech with high empathy" (Kumar). You want impact at a scale almost nowhere else offers.</p></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FLASHCARDS -->
+    <section class="panel" id="flash" role="tabpanel" aria-labelledby="tab-flash">
+      <p class="eyebrow">Drill until automatic</p>
+      <div class="fc-head">
+        <h2>Flashcards</h2>
+        <span class="hint">Tap a card to flip · 10 decks</span>
+      </div>
+
+      <div class="deck-grid" id="deckGrid"><!-- deck buttons injected by JS --></div>
+
+      <h3 class="stage-title" id="stageTitle">Pick a deck to begin</h3>
+
+      <div class="flip-card" id="flipCard" role="button" tabindex="0" aria-label="Flashcard — tap to flip">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <span class="flip-tag">Term</span>
+            <div class="flip-q" id="cardFront">Select a deck above to get started.</div>
+            <span class="flip-hint">tap to flip</span>
+          </div>
+          <div class="flip-face flip-back">
+            <span class="flip-tag">Answer</span>
+            <div class="flip-a" id="cardBack"></div>
+            <span class="flip-hint">tap to flip back</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="fc-controls">
+        <button class="icon-btn" id="prevCard" aria-label="Previous card" title="Previous">‹</button>
+        <span class="fc-progress" id="fcProgress">— / —</span>
+        <button class="icon-btn" id="nextCard" aria-label="Next card" title="Next">›</button>
+        <span class="spacer"></span>
+        <button class="icon-btn" id="shuffleDeck" aria-label="Shuffle deck" title="Shuffle">🔀</button>
+        <button class="icon-btn" id="resetDeck" aria-label="Reset deck" title="Reset">↺</button>
+      </div>
+    </section>
+
+    <!-- QUESTIONS -->
+    <section class="panel" id="questions" role="tabpanel" aria-labelledby="tab-questions">
+      <p class="eyebrow">Show them you've done this before</p>
+      <div class="fc-head">
+        <h2>Questions to Ask</h2>
+      </div>
+      <p class="qa-intro">Each card pairs a sharp question with a suggested <em>Your take</em> — tap it to reveal a talk track tied to your own background (Western Union, Amex, HEB, e-commerce) and Walmart's public capabilities. Ask them to signal depth, or rehearse the response yourself. Filter by topic.</p>
+
+      <div class="qa-chips" id="qaChips" role="group" aria-label="Filter questions by topic"></div>
+      <p class="q-count" id="qCount"></p>
+      <div class="qbank" id="qBank"></div>
+    </section>
+
+    <!-- GAME DAY -->
+    <section class="panel" id="gameday" role="tabpanel" aria-labelledby="tab-gameday">
+      <p class="eyebrow">You've done the work</p>
+      <div class="fc-head"><h2>Game Day</h2></div>
+
+      <div class="gd-countdown" aria-live="polite">
+        <div class="gd-cd-unit"><div class="gd-cd-num" id="cd2-d">--</div><div class="gd-cd-tag">Days</div></div>
+        <div class="gd-cd-sep">:</div>
+        <div class="gd-cd-unit"><div class="gd-cd-num" id="cd2-h">--</div><div class="gd-cd-tag">Hours</div></div>
+        <div class="gd-cd-sep">:</div>
+        <div class="gd-cd-unit"><div class="gd-cd-num" id="cd2-m">--</div><div class="gd-cd-tag">Min</div></div>
+      </div>
+      <p class="gd-when" id="gdWhen">Interview &middot; Thursday, June 18, 2026 &middot; 9:00 AM</p>
+
+      <div id="checklists"></div>
+
+      <h3 class="stage-title" style="margin-top:30px">Your wins to land</h3>
+      <p class="qa-intro" style="margin-bottom:14px">STAR-ready proof points from your resume &mdash; lead with the action, close with the number.</p>
+      <div class="qbank" id="winBank"></div>
+
+      <h3 class="stage-title" style="margin-top:30px">Walmart highlights to drop in</h3>
+      <ul class="hl-list" id="hlList"></ul>
+
+      <div class="pep">
+        <p>"I've delivered complex, cross-functional programs for 17+ years &mdash; payments at Western Union, card and risk platforms at Amex, retail systems at HEB. I know how to align business and engineering, manage risk, and ship at scale. I'm not walking in hoping for an offer &mdash; I'm here to confirm this is the right place to do my best work. I'm ready."
+        <span class="sig">&mdash; Read this before you walk in.</span></p>
+      </div>
+    </section>
+  </main>
+
+<script>
+  /* ====== CONFIG — edit these ====== */
+  const CONFIG = {
+    // Set your interview date & time here (local time).
+    // Format: "YYYY-MM-DDTHH:MM:SS"
+    interviewDate: "2026-06-18T09:00:00"
+  };
+
+  /* ====== Tab navigation ====== */
+  const tabs = Array.from(document.querySelectorAll('.tab'));
+  const panels = Array.from(document.querySelectorAll('.panel'));
+
+  function selectTab(tab) {
+    tabs.forEach(t => t.setAttribute('aria-selected', String(t === tab)));
+    panels.forEach(p => p.classList.toggle('active', p.id === tab.getAttribute('aria-controls')));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => selectTab(tab));
+    tab.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        const dir = e.key === 'ArrowRight' ? 1 : -1;
+        const next = tabs[(i + dir + tabs.length) % tabs.length];
+        next.focus(); selectTab(next);
+      }
+    });
+  });
+
+  /* ====== Countdown ====== */
+  const target = new Date(CONFIG.interviewDate).getTime();
+  const el = { d: document.getElementById('cd-d'), h: document.getElementById('cd-h'), m: document.getElementById('cd-m') };
+
+  function setCd(d, h, m) {
+    el.d.textContent = d; el.h.textContent = h; el.m.textContent = m;
+    const d2 = document.getElementById('cd2-d'), h2 = document.getElementById('cd2-h'), m2 = document.getElementById('cd2-m');
+    if (d2) { d2.textContent = d; h2.textContent = h; m2.textContent = m; }
+  }
+  function tick() {
+    const diff = target - Date.now();
+    if (isNaN(target)) { setCd('--', '--', '--'); return; }
+    if (diff <= 0) {
+      setCd('0', '0', '0');
+      const lbl = document.querySelector('.cd-label'); if (lbl) lbl.textContent = "It's go time. You're ready.";
+      const gw = document.getElementById('gdWhen'); if (gw) gw.textContent = 'Today is the day. Go get it.';
+      return;
+    }
+    const days = Math.floor(diff / 86400000);
+    const hrs  = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    setCd(days, String(hrs).padStart(2, '0'), String(mins).padStart(2, '0'));
+  }
+  tick();
+  setInterval(tick, 30000);
+
+  /* ====== Study Notes accordion ====== */
+  document.querySelectorAll('.acc-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      btn.nextElementSibling.classList.toggle('open', !expanded);
+    });
+  });
+
+  /* ====== Print notes ====== */
+  const printBtn = document.getElementById('printNotes');
+  if (printBtn) printBtn.addEventListener('click', () => window.print());
+
+  /* ====== Flashcards ====== */
+  const DECKS = [
+    { name: "Walmart & Retail Services", cards: [
+      { t: "What is Walmart Global Tech?", a: "The technology arm of Walmart Inc. (NYSE: WMT) — engineers, data scientists, cybersecurity and service pros powering the world's largest retailer. Tagline: \"people-led and tech-powered.\"" },
+      { t: "Who is Walmart's CEO in 2026?", a: "John Furner, effective Feb 1, 2026, succeeding Doug McMillon. He started as an hourly associate in 1993 and led Walmart U.S. and Sam's Club." },
+      { t: "Who leads Walmart Global Tech?", a: "Suresh Kumar — EVP, Global Chief Technology Officer & Chief Development Officer." },
+      { t: "Walmart's FY2026 scale (key numbers)?", a: "Revenue >$700B; global eCommerce >$150B (+24%); advertising +46%; membership fees >$4.3B; ~2.1M associates." },
+      { t: "What is Walmart Business?", a: "Walmart's B2B arm serving organizations (SMBs, nonprofits, govt) with business-friendly purchasing, bulk ordering, multi-user accounts, and spend controls." },
+      { t: "The four Retail Services focus areas?", a: "1) Business-friendly purchasing, 2) onboarding & marketing, 3) business customer support & operations, 4) business engagement & monetization." },
+      { t: "How does B2B buying differ from B2C?", a: "Approval workflows, spend controls, invoicing/net terms, multi-user accounts, tax exemption, and bulk ordering — buyers are organizations, not households." },
+      { t: "Walmart's four core values?", a: "Service to the Customer; Respect for the Individual; Strive for Excellence; Act with Integrity." },
+      { t: "What is EDLP?", a: "Everyday Low Price — Sam Walton's founding philosophy (first store 1962, Rogers AR). Drives relentless cost-to-serve discipline." },
+      { t: "Walmart Business's main competitor?", a: "Amazon Business (plus category players like Staples, Uline, and Grainger)." }
+    ]},
+    { name: "TPM Concepts", cards: [
+      { t: "Program vs. project?", a: "A project delivers one defined outcome; a program coordinates many related projects toward a shared strategic goal. Principal TPMs operate at program/portfolio level." },
+      { t: "Critical path?", a: "The longest chain of dependent tasks that sets the minimum program duration. A slip on the critical path slips the whole program." },
+      { t: "RAID log?", a: "Risks, Assumptions, Issues, Dependencies — the TPM's core tracking artifact for a program." },
+      { t: "Stage gates?", a: "Go/no-go decision checkpoints between phases that control scope, quality, and spend at scale." },
+      { t: "SAFe?", a: "Scaled Agile Framework — coordinates many agile teams via Program Increments (PIs) and Agile Release Trains (ARTs) on a shared cadence." },
+      { t: "Program life cycle?", a: "Initiation → Planning → Execution → Monitoring & Control → Closure (PMI process groups, applied at program scale)." },
+      { t: "Stakeholder management?", a: "Identify, analyze (power/interest), and engage stakeholders — using RACI, comms plans, regular cadences, and a single source of truth." },
+      { t: "Risk management process?", a: "Identify → assess (likelihood × impact) → respond (mitigate/avoid/transfer/accept) → monitor. Surface early; own the mitigation plan." },
+      { t: "Leadership communication?", a: "Tailor the message to the audience: crisp executive summaries, escalations with options, and making a technical concept land in 60 seconds." },
+      { t: "Portfolio planning?", a: "Selecting and sequencing programs to maximize strategic value within capacity and budget — intake, prioritization, LRP/AOP alignment." },
+      { t: "Demand & capacity planning?", a: "Balancing incoming work (demand) against team throughput (capacity) to set realistic commitments and avoid overload." },
+      { t: "Operational / control efficiency?", a: "Reducing waste and cycle time while improving throughput and predictability — doing more with the same capacity." }
+    ]},
+    { name: "The Role", cards: [
+      { t: "Responsibility 1 (discovery & planning)", a: "Usher large, complex projects through discovery and planning with business, product, and UX. Tests upstream shaping of ambiguity." },
+      { t: "Responsibility 2 (engineering coordination)", a: "Coordinate across several engineering teams so solutions map back to business strategy. Tests cross-team orchestration + technical judgment." },
+      { t: "Responsibility 3 (plans & risk)", a: "Build cross-functional program plans; manage risk at program & portfolio level; drive execution. Tests core TPM craft at scale." },
+      { t: "Responsibility 4 (lead TPMs)", a: "As a Principal, lead the TPMs and continuously improve processes & execution models. Tests leadership and standard-setting." },
+      { t: "Key qualification 1", a: "Deep software engineering + technical program management experience — be ready to go technical and push back on architecture credibly." },
+      { t: "Key qualification 2", a: "Intrapreneurial spirit and rapid program execution within a complex enterprise." },
+      { t: "Key qualification 3", a: "Experience in retail eCommerce, B2B, or fulfillment technology — lead with whichever you have." },
+      { t: "What does \"everyone in between\" signal?", a: "You'll interact with executive leaders, boots-on-the-ground engineers, and everyone between — you must communicate up and down." },
+      { t: "The single biggest theme of this role?", a: "Intrapreneurial speed inside a giant enterprise — move fast without breaking the org." }
+    ]},
+    { name: "Behavioral / STAR prompts", cards: [
+      { t: "\"Tell me about a complex program you drove end-to-end.\"", a: "Probing: scope, your specific role, the stakeholder web, and a quantified outcome. Use STAR; center your actions." },
+      { t: "\"A time you managed a major risk or recovered a slipping program.\"", a: "Probing: early detection, mitigation plan, how you communicated, and the result." },
+      { t: "\"Tell me about influencing without authority.\"", a: "Probing: how you aligned teams or executives you don't manage toward a decision." },
+      { t: "\"A time your technical judgment changed a decision.\"", a: "Probing: technical depth, credibility with engineers, and the business impact of the change." },
+      { t: "\"How did you develop or coach a PM/TPM?\"", a: "Probing: Principal-level leadership — ideally a promotion or skill jump you enabled." },
+      { t: "\"Product vs. engineering conflict — how did you resolve it?\"", a: "Probing: neutrality, how you framed the trade-off, and whether the resolution held." },
+      { t: "\"A time you moved fast in a bureaucratic environment.\"", a: "Probing: intrapreneurial spirit and bias for action — exactly what this JD asks for." },
+      { t: "\"A program that failed or slipped — what did you learn?\"", a: "Probing: ownership, blameless reflection, and the concrete change you made afterward." },
+      { t: "\"Why Walmart / why this role?\"", a: "Probing: scale of impact, the B2B growth bet, and alignment with the \"innovation and AI\" direction." },
+      { t: "What is the STAR structure?", a: "Situation, Task, Action, Result. Lead with brief context, spend most time on YOUR actions, end with a quantified result." }
+    ]},
+    { name: "Walmart AI Agents & LLMs", cards: [
+      { t: "Walmart's four AI \"super agents\"?", a: "Sparky (customers), Associate Agent (employees), Supplier/Marty Agent (sellers & suppliers), and Developer Agent (engineers)." },
+      { t: "What is Sparky?", a: "The customer-facing generative-AI assistant in the Walmart app — shifts shopping from keyword search to conversational, goal-based help (e.g., \"plan a flower-themed party\")." },
+      { t: "What is Wallaby?", a: "Walmart's proprietary retail-specific LLM(s), trained on decades of retail data for deep retail context." },
+      { t: "What is Element?", a: "Walmart's internal MLOps platform that orchestrates models (including multiple LLMs) — a model-agnostic foundation for its AI apps." },
+      { t: "What does the Associate Agent do?", a: "Streamlines associate tasks — scheduling, real-time sales data, submitting parental leave, training. \"High tech with high empathy.\"" },
+      { t: "Supplier / Marty Agent?", a: "Helps sellers, suppliers, and advertisers with onboarding, order management, and campaign execution." },
+      { t: "Developer Agent?", a: "Accelerates internal engineering — AI-assisted building, testing, and launching of products." },
+      { t: "AI in stores & operations?", a: "Digital twins of stores/clubs to detect and diagnose issues, computer vision, and more accurate predictive delivery windows." },
+      { t: "Walmart's Responsible AI stance?", a: "A Responsible AI Pledge committing to fairness, transparency, privacy, security, and human oversight." },
+      { t: "What is the Universal Commerce Protocol (UCP)?", a: "An open agentic-commerce standard (Apache 2.0) launched by Google in Jan 2026 and co-developed by Walmart, Shopify, Etsy, Wayfair, and Target. It gives AI agents one common language to discover, negotiate, and check out across merchants. Walmart built a Gemini experience on UCP so shoppers buy Walmart and Sam's Club items conversationally — with Walmart as merchant of record, keeping the customer relationship and data." },
+      { t: "Why does UCP matter to Walmart?", a: "It's Walmart's bet on \"agent-led commerce\" (Furner: the next great evolution in retail) — reaching customers where they shop with AI, while staying in control of pricing, membership benefits, and the customer relationship. It interoperates with A2A, AP2, and MCP." },
+      { t: "TPM angle on AI program delivery?", a: "AI work needs shorter feedback loops, hypothesis-driven milestones, and evaluation/quality gates rather than pure story-point delivery." }
+    ]},
+    { name: "E2E Retail-eCommerce Architecture", cards: [
+      { t: "Goal of omnichannel architecture?", a: "One seamless experience across app, web, and store — shared inventory, identity, cart, and fulfillment behind the scenes." },
+      { t: "\"Store as fulfillment hub\" — why it matters?", a: "Walmart uses its ~4,600 US stores as mini-warehouses; 90% of Americans live within 10 miles of one, enabling fast pickup and delivery." },
+      { t: "Why microservices?", a: "A large monolith is decomposed into independently deployable services (catalog, cart, pricing, inventory, orders) for scale and team autonomy." },
+      { t: "Walmart's cloud strategy (publicly discussed)?", a: "A hybrid/multi-cloud approach (\"Triplet\") across Azure, Google Cloud, and on-prem edge in stores, with WCNP (Walmart Cloud Native Platform) on Kubernetes." },
+      { t: "Why run compute at the edge (in stores)?", a: "Lower latency, resilience, and offline operation — a store keeps running even if a cloud region goes down." },
+      { t: "Role of event streaming (Kafka-style)?", a: "Event backbones move inventory, order, and pricing changes in near-real-time across many systems." },
+      { t: "Headless / API-first commerce?", a: "Front-end is decoupled from back-end via APIs/GraphQL, so the same services power app, web, kiosk, and partners." },
+      { t: "Key non-functional requirements at scale?", a: "Scalability, reliability, latency, security, observability — first-class concerns at Walmart's scale, not afterthoughts." },
+      { t: "Services layered on top of commerce?", a: "Marketplace, WFS, Walmart Connect (retail-media ads), GoLocal (delivery-as-a-service), Walmart Business (B2B), and Walmart+." }
+    ]},
+    { name: "Marketplace Capabilities", cards: [
+      { t: "What is Walmart Marketplace?", a: "A third-party (3P) platform where external sellers list on Walmart.com — 200,000+ active sellers; the #2 US marketplace after Amazon." },
+      { t: "Seller eligibility basics?", a: "Proven eCommerce track record; GS1 GTIN/UPC identifiers; 1–2 day shipping; US return address; fulfillment via WFS or a compliant B2C warehouse." },
+      { t: "How do sellers integrate?", a: "Seller Center (manual/bulk upload), direct API via the Developer Portal, or an approved solution provider." },
+      { t: "Walmart Connect for sellers?", a: "3P Sponsored Search and display ads that let sellers promote listings across Walmart surfaces (high-margin retail media)." },
+      { t: "Multichannel Solutions (MCS)?", a: "Sellers use Walmart's WFS logistics to fulfill orders from their own site, social shops, and other marketplaces (Amazon, eBay)." },
+      { t: "International reach for sellers?", a: "Sellers can reach customers across the US, Canada, Mexico, and Chile." },
+      { t: "Seller Academy?", a: "Structured certification training covering onboarding, advertising, and listing optimization." },
+      { t: "Customer-side benefits of Marketplace?", a: "Wider assortment, the \"Fulfilled by Walmart\" trust badge, fast 2-day/next-day shipping, and easy returns (in-store + mail)." },
+      { t: "Why Marketplace matters strategically?", a: "Asset-light assortment growth plus high-margin services (fees, ads, fulfillment) — it diversifies profit beyond first-party retail." }
+    ]},
+    { name: "Last-Mile Delivery Options", cards: [
+      { t: "Spark Driver platform?", a: "Walmart's crowdsourced gig-driver network that handles last-mile delivery from stores." },
+      { t: "Express Delivery?", a: "Ultra-fast delivery (as fast as about an hour) from store inventory for a fee." },
+      { t: "InHome Delivery?", a: "A membership service that delivers groceries inside the home (fridge/garage) using smart-entry tech and vetted associates." },
+      { t: "Walmart GoLocal?", a: "Walmart's white-label Delivery-as-a-Service — it sells its last-mile network to other businesses." },
+      { t: "Drone delivery (Wing)?", a: "Partnership with Alphabet's Wing; drones carry ~2.1 lb up to ~6–8 miles, expanding toward 270 stores by 2027; free to Walmart+ for a limited time." },
+      { t: "Curbside / store pickup?", a: "Order online and collect at the store — the backbone of Walmart's omnichannel convenience." },
+      { t: "Walmart+ role in delivery?", a: "A paid membership bundling free delivery, fuel discounts, and Paramount+ to drive loyalty and order frequency." },
+      { t: "Third-party delivery partners?", a: "Walmart also fulfills via partners like DoorDash and Uber for extra last-mile capacity." },
+      { t: "Predictive delivery windows?", a: "AI and digital twins give more accurate delivery promises, with reach toward ~95% of US households." }
+    ]},
+    { name: "Fulfillment Capabilities", cards: [
+      { t: "What is WFS (Walmart Fulfillment Services)?", a: "End-to-end fulfillment for Marketplace sellers — Walmart picks, packs, ships, and handles customer support and returns." },
+      { t: "WFS seller benefits?", a: "Rates ~15% lower than competitors on average, and ~50% GMV lift on items tagged Fulfilled by Walmart with 2-day shipping." },
+      { t: "Next-Day delivery via WFS?", a: "Expanded next-day coverage across top US metros — LA, NYC, Chicago, Houston, Atlanta." },
+      { t: "Fulfillment facility types?", a: "Regional Distribution Centers (RDCs), next-gen Fulfillment Centers (FCs), and store-attached Accelerated Pickup & Delivery centers (APDs/MFCs)." },
+      { t: "\"Fulfilled by Walmart\" badge?", a: "A trust + fast-shipping signal that boosts conversion for Marketplace items." },
+      { t: "Free & Easy Returns?", a: "Omnichannel returns for WFS items — by mail or in-store." },
+      { t: "First-mile services WFS offers?", a: "Walmart Imports, Preferred Carrier Program, Inventory Transfer/placement services, and ocean freight." },
+      { t: "Automated fulfillment-center target?", a: "~55% of fulfillment-center volume through automated facilities by end of FY2026." },
+      { t: "Walmart's fulfillment promise to customers?", a: "Speed (2-day/next-day/same-day), reliability, and easy returns across every channel." }
+    ]},
+    { name: "Warehouse Management & Automation", cards: [
+      { t: "What is a WMS?", a: "Software that manages warehouse operations — receiving, putaway, slotting, inventory, picking, packing, and shipping." },
+      { t: "Walmart + Symbotic relationship?", a: "AI-robotics partner automating all 42 US regional distribution centers. Walmart sold its robotics unit to Symbotic (2025) under a 12-year exclusive commercial deal." },
+      { t: "The APD automation deal?", a: "Symbotic to build automation for 400+ Accelerated Pickup & Delivery centers (store-level micro-fulfillment) — a ~$520M program." },
+      { t: "Market / Micro Fulfillment Centers (MFCs)?", a: "Automated mini-warehouses (formerly LFCs) attached to stores; roots in Alert Innovation's Alphabot system (Walmart acquired Alert in 2022)." },
+      { t: "Store automation target?", a: "~65% of stores serviced by automation by the end of FY2026." },
+      { t: "Why high-density storage + ML?", a: "Symbotic's robots and dense storage maximize throughput and cube utilization while shrinking footprint." },
+      { t: "Symbotic's Gen-2 platform?", a: "Next-gen storage structure — higher density, faster installs, supports MFC + DC + perishables; prototypes began early 2026." },
+      { t: "Why automate fulfillment at all?", a: "Online grocery is only profitable at scale through automation — it lowers cost-to-serve, speeds orders, and improves accuracy." },
+      { t: "Key WMS metrics?", a: "Perfect-order rate (accuracy), throughput, dock-to-stock time, pick rate, and inventory accuracy." },
+      { t: "Digital twins in warehouses?", a: "Virtual replicas used to monitor, detect, and diagnose operational issues before they cause delays." }
+    ]}
+  ];
+
+  const deckGrid = document.getElementById('deckGrid');
+  const flipCard = document.getElementById('flipCard');
+  const cardFront = document.getElementById('cardFront');
+  const cardBack = document.getElementById('cardBack');
+  const stageTitle = document.getElementById('stageTitle');
+  const fcProgress = document.getElementById('fcProgress');
+
+  let activeDeck = -1, order = [], pos = 0;
+
+  // Build deck selector
+  DECKS.forEach((deck, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'deck-card';
+    btn.setAttribute('aria-pressed', 'false');
+    btn.innerHTML = '<span class="dn"><span class="dnum">' + String(i + 1).padStart(2, '0') +
+      '</span>' + deck.name + '</span><span class="dc">' + deck.cards.length + ' cards</span>';
+    btn.addEventListener('click', () => loadDeck(i));
+    deckGrid.appendChild(btn);
+  });
+
+  function loadDeck(i) {
+    activeDeck = i;
+    order = DECKS[i].cards.map((_, k) => k);
+    pos = 0;
+    flipCard.classList.remove('flipped');
+    Array.from(deckGrid.children).forEach((b, k) => b.setAttribute('aria-pressed', String(k === i)));
+    stageTitle.textContent = DECKS[i].name;
+    renderCard();
+  }
+
+  function renderCard() {
+    if (activeDeck < 0) return;
+    const card = DECKS[activeDeck].cards[order[pos]];
+    flipCard.classList.remove('flipped');
+    // wait a tick so flip-back content swaps unseen
+    cardFront.textContent = card.t;
+    cardBack.textContent = card.a;
+    fcProgress.textContent = (pos + 1) + ' / ' + order.length;
+  }
+
+  function move(delta) {
+    if (activeDeck < 0) return;
+    pos = (pos + delta + order.length) % order.length;
+    renderCard();
+  }
+
+  flipCard.addEventListener('click', () => {
+    if (activeDeck < 0) return;
+    flipCard.classList.toggle('flipped');
+  });
+  flipCard.addEventListener('keydown', (e) => {
+    if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); flipCard.click(); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); move(1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); move(-1); }
+  });
+
+  document.getElementById('nextCard').addEventListener('click', () => move(1));
+  document.getElementById('prevCard').addEventListener('click', () => move(-1));
+
+  document.getElementById('shuffleDeck').addEventListener('click', () => {
+    if (activeDeck < 0) return;
+    for (let k = order.length - 1; k > 0; k--) {
+      const j = Math.floor(Math.random() * (k + 1));
+      [order[k], order[j]] = [order[j], order[k]];
+    }
+    pos = 0;
+    renderCard();
+  });
+
+  document.getElementById('resetDeck').addEventListener('click', () => {
+    if (activeDeck < 0) return;
+    loadDeck(activeDeck);
+  });
+
+  /* ====== Questions to Ask ====== */
+  const QCATS = [
+    ["all",     "All"],
+    ["panel",   "For the Panel"],
+    ["design",  "System Design"],
+    ["lifecycle","Product Lifecycle"],
+    ["metrics", "Product Metrics (eComm CX)"],
+    ["omni",    "Omnichannel CX & Service"],
+    ["onboard", "Onboarding & Marketing"],
+    ["support", "Support & Operations"],
+    ["monetize","Engagement & Monetization"],
+    ["scale",   "Scalability"],
+    ["security","Security"],
+    ["resilience","Resiliency"]
+  ];
+  const QCATLABEL = Object.fromEntries(QCATS.map(c => c));
+
+  const QUESTIONS = [
+    ["panel", "What does success look like for this role in the first 6–12 months?", "Signals you think in outcomes, not task lists.", "I land fast by taking ownership of the highest-stakes program first. At Western Union I did that with the Account Payout Network — aligning business and technology on a roadmap with a clear vision and measurable KPIs in the first weeks. I'd want to know which Retail Services program is that anchor here."],
+    ["panel", "Which Retail Services programs would this person own first, and why are they the highest stakes?", "Shows you want to plug straight into what matters most.", "That fits how I ramp — at WU I anchored on the APN and Digital Master Agent programs and drove them to a product launch across 17 countries. Point me at the equivalent here and I'll ramp on what matters."],
+    ["panel", "How is the TPM function structured today, and where does it most need to mature?", "Demonstrates you think about the org, not just delivery.", "I've stood up the function itself — I've implemented PMO governance models, standard processes, and review frameworks more than once, including a risk-based governance overhaul at Amex that cut cycle time 20% and documentation 40%. Knowing where you are on that maturity curve tells me where my standards work plugs in."],
+    ["panel", "How do product, engineering, and TPM divide ownership of discovery and planning here?", "Probes the operating model you'd inherit — straight from the JD.", "My model: I partner with product owners and scrum masters on backlog, stories, and story points while I own the cross-team plan, interdependencies, and release plans — exactly how I ran APN/DMA. I'd want to understand how that boundary is drawn here so I respect what's working."],
+    ["panel", "What's the single hardest cross-team dependency this team is wrestling with right now?", "Surfaces the real problem you'd walk into.", "Cross-team dependencies are my core muscle — at WU I brought conflicting functional teams onto a single Scrum board, lifted sprint efficiency by ~10 story points, and realigned leaders to hit the 17-country launch. Tell me the gnarliest current dependency and I'll likely have a comparable story."],
+    ["design", "How is the B2B purchasing flow architected to support approval workflows, spend controls, and multi-user accounts at scale?", "Signals you understand B2B buying ≠ consumer checkout.", "B2B adds an org hierarchy, role-based approvals, and per-user spend controls on top of the cart — I'd model approvals as an async state machine so a pending approval never blocks browse. This is close to the partner-integration and configurable-payments work I led on WU's Digital Master Agent platform, which had to flex to different partners' license rules and permissions."],
+    ["design", "Where does Walmart Business share the consumer platform vs. run dedicated services — and how do you decide the boundary?", "Architectural judgment on reuse vs. isolation.", "Reuse the shared primitives — catalog, identity, payments, fulfillment — and isolate what's genuinely B2B: org accounts, approvals, invoicing. On WU's DMA platform I made exactly this call, building reusable 'out-of-the-box' API capabilities while allowing partners to bring custom or branded integrations where they needed them."],
+    ["design", "How is the payments platform designed for tokenization, multiple tender types, and net-terms / invoicing for business customers?", "Payments depth, which this org touches directly.", "Payments is my deepest area — at Western Union I ran the Account Payout Network (real-time account validation, targeting per-payout cost under $1) and DMA's pay-in/pay-out and risk-assessment flows, and at Amex I delivered card products and risk systems. I'd tokenize at capture, support a pluggable tender model, and treat invoicing/AR as its own bounded context, the way Amex consolidated its global A/R systems in the Pegasus program."],
+    ["design", "How is Walmart+ membership entitlement checked across app, store, and delivery with low latency?", "Shows you think about cross-cutting shared services.", "Entitlement is a cross-cutting concern — I'd expose it as a cached service issuing short-TTL tokens so app, store POS, and delivery resolve membership in milliseconds, with graceful fallback so checkout never blocks. Configurable, reusable platform capabilities like this were central to the DMA build at WU."],
+    ["design", "How do you guarantee idempotency and consistency in the order/checkout path under peak load?", "Classic distributed-systems rigor.", "Idempotency keys on order-submit, an outbox/event pattern for reliable downstream propagation, and saga-based compensation rather than distributed transactions. In payments at WU and Amex, no-lost and no-duplicated transactions is non-negotiable — and real-time validation to cut rejects was a core goal of the APN program."],
+    ["lifecycle", "How do ideas move from discovery to GA in Retail Services — what are the stage gates?", "Maps directly to the JD's discovery & planning responsibility.", "I run a gated funnel with a roadmap tied to a clear vision, business benefits, and measurable KPIs, with go/no-go at each phase — that's how I structured APN/DMA. At HEB I used the same phased approach and delivered phase 1 early, saving $90K."],
+    ["lifecycle", "How do you decide when to sunset or consolidate a B2B capability?", "End-of-life thinking, not just launch thinking.", "Same rigor as a launch: usage data, a migration path, and a deprecation timeline. I led Amex's Pegasus program to simplify and reduce the number of global accounts-receivable systems — consolidation run as a managed program, not an afterthought."],
+    ["lifecycle", "How much of the roadmap is experimentation vs. committed delivery, and how is that balance managed?", "Shows you balance bets against commitments.", "I keep a committed roadmap leadership can bank on plus room for incubation — at Amex/CTS I drove incubation through to a working AR app and a Google Glass POC for the travel portfolio while still shipping committed card products on time."],
+    ["lifecycle", "Are teams running dual-track (continuous discovery alongside delivery), and how is that coordinated?", "Modern product-ops fluency.", "Discovery runs ahead of delivery, feeding a 'ready' backlog. I helped product managers and scrum masters build and refine backlog, stories, and story points so engineering was never starved or building unvalidated work — a habit from the APN/DMA program."],
+    ["metrics", "What are the north-star metrics for the B2B experience, and how do they differ from consumer?", "Metric maturity + B2B nuance.", "B2B optimizes for account-level value — active accounts, reorder rate, retention — not one-off conversion. I'm comfortable defining programs around measurable KPIs and business benefits; on APN I set explicit success metrics like per-payout cost and reduced transaction rejects."],
+    ["metrics", "How do you measure conversion, retention, and repeat purchase for business accounts vs. households?", "eCommerce metric depth.", "Measure at the account level — many users, longer and more deliberate buying cycles. I'd track cohort retention, reorder interval, and expansion, the same outcome focus I applied to driving partner adoption on the DMA platform."],
+    ["metrics", "How is CX measured end-to-end — from discovery (incl. agentic via UCP/Sparky) to post-purchase support?", "Ties metrics to the agentic-commerce story.", "Instrument the whole journey — discovery (now agentic via Sparky and Gemini over UCP), purchase, fulfillment, and support — as a connected funnel with an effort score at each stage. My Amex acquisition work taught me to measure the full path from eApply through MyCA servicing, not just the front door."],
+    ["metrics", "Which leading indicators predict business-account churn, and how early can you see them?", "Predictive, not just lagging, metrics.", "Declining reorder frequency, shrinking basket diversity, and support-ticket spikes usually precede churn by weeks. I'd build a health score and intervene early — the same risk-and-issue monitoring discipline I ran through Scrum of Scrums, applied to customer risk."],
+    ["omni", "How is a single customer/business identity and cart maintained across app, web, and store?", "Core omnichannel architecture problem.", "A shared identity service and a server-side, surface-agnostic cart — the hard part is reconciling in-store POS identity with online identity, so anchor on the account. My e-commerce dev roots (building print-on-demand custom-card flows at Brulant for Hallmark) give me feel for both the front-end and the data behind it."],
+    ["omni", "How do service responses stay consistent when an order spans store pickup, WFS, and a marketplace seller?", "Cross-fulfillment service consistency.", "Customers shouldn't feel the seam between 1P, WFS, and a marketplace seller. I'd standardize the post-order service contract — tracking, returns, SLAs — across paths and present one unified order view, federation done cleanly, like integrating many WU partners behind a single platform."],
+    ["omni", "How do you keep inventory and price truth consistent across channels in near-real-time?", "One of the hardest omnichannel problems.", "Event-driven, single source of truth over a streaming backbone with reservation logic so two channels can't oversell the same unit. Real-time validation was the heart of WU's APN — making data truthful in the moment to cut rejects — and the same principle applies to inventory and price."],
+    ["omni", "How is the handoff handled when an AI agent (Sparky / Gemini via UCP) escalates to a human?", "Agentic commerce meets real service ops.", "The handoff has to carry full context — what the agent tried, the customer's intent, account state — so the human doesn't restart. I'd treat handoff rate and post-handoff resolution as first-class CX metrics and a bad handoff as a defect to fix."],
+    ["onboard", "What does business-customer onboarding look like today, and where's the biggest drop-off?", "Funnel and activation thinking.", "Instrument the funnel step by step and attack the biggest drop — in B2B it's usually verification and approval friction. On WU's DMA I focused on faster partner onboarding precisely because integration friction was the barrier to growth."],
+    ["onboard", "How is acquisition marketing measured and attributed for Walmart Business?", "Growth-metrics fluency.", "Multi-touch attribution tied to account creation and first purchase, not last click — B2B journeys are long and multi-stakeholder. At Amex I delivered mApply, the optimized mobile acquisition channel, with tracking and analytics (Omniture, tag and data feeds) built in from the start."],
+    ["onboard", "What's the biggest lever for reducing time-to-first-value for a new business account?", "Activation focus over vanity signups.", "Define first value concretely and remove every step before it. The DMA platform's whole premise was faster time-to-value for partners via 'out-of-the-box' APIs instead of slow custom integration — the same instinct applies to business-account activation."],
+    ["onboard", "How does Walmart Connect (retail media) factor into seller and business onboarding?", "Connects acquisition to monetization.", "Retail media is both monetization and acquisition — sponsored placement helps new businesses get discovered, accelerating first revenue and stickiness. I'd look for the loop where onboarding feeds ad adoption and ad performance improves retention."],
+    ["support", "How are B2B support SLAs defined and instrumented differently from consumer support?", "Operational rigor.", "Tighter, tiered SLAs — a stalled order can block the customer's own operations. I'd instrument them with real dashboards and alerting, the way I ran executive program-health and status reporting at WU and Amex."],
+    ["support", "Where are AI agents already deflecting or assisting B2B support, and what's next?", "AI-in-operations awareness.", "The Associate and Supplier agents can deflect routine queries — order status, invoicing, returns — and give reps account context; next is multi-step agentic resolution with clean escalation. I'd measure deflection rate and post-deflection satisfaction so we never deflect into frustration."],
+    ["support", "How do you measure operational efficiency and cost-to-serve for business accounts?", "Cost-to-serve is the Walmart reflex.", "I'd measure support cost per account and per order and automate the high-cost, low-value tail. Cost reduction is a thread through my work — HEB's migration lowered mainframe total cost of ownership, and APN targeted per-payout cost under $1."],
+    ["support", "What's the escalation path when a high-value business account hits a major incident?", "Incident operations maturity.", "A named escalation path, clear severity levels, an incident commander, proactive comms, then a blameless postmortem. Resolving conflicts and escalations to keep programs on track is something I did repeatedly — including realigning functional leaders at WU to hit the 17-country launch."],
+    ["monetize", "What levers drive business-customer engagement and repeat purchase today?", "Growth-lever thinking.", "Reorder ease, membership, curated business assortments, and spend-based incentives. I'd find the highest-elasticity lever and double down. Configurable revenue and engagement options were built right into the DMA platform."],
+    ["monetize", "How is monetization balanced against the EDLP promise for business customers?", "Awareness of a real strategic tension.", "Monetize through services — membership, ads, fulfillment fees — not by eroding the price promise that wins business customers. EDLP is the moat. WU faced the same tension: drive per-payout cost down while monetizing through the platform and partner model."],
+    ["monetize", "What roles do membership, ads (Walmart Connect), and fulfillment fees play in Retail Services monetization?", "Revenue-stream fluency.", "Three complementary streams: business/Walmart+ membership for recurring revenue and loyalty, Walmart Connect ads for high-margin retail media, and WFS/fulfillment fees that scale with GMV — the diversification driving Walmart's FY2026 results (ads +46%, membership >$4.3B). WU's DMA platform similarly had configurable revenue-recognition and reporting built in."],
+    ["monetize", "How do you instrument lifetime value and expansion revenue for business accounts?", "LTV / net-revenue-retention thinking.", "Track account LTV and net revenue retention — expansion (more users, more categories, higher frequency) is where B2B economics win. I'd tie acquisition spend back to LTV, not first order, the same outcome orientation I bring to program KPIs."],
+    ["scale", "What peak events (seasonal spikes, large B2B orders) must the platform absorb, and how is capacity planned?", "Capacity and demand planning.", "Plan to the peak, not the average — seasonal spikes plus large bulk B2B orders. I'd forecast demand against headroom and pre-provision. The APN/DMA platform had to scale to real-time validation volume across the 17-country launch."],
+    ["scale", "How is the architecture designed to scale horizontally — stateless services, sharding, caching strategy?", "Concrete scaling patterns.", "Stateless services, partition and shard hot data, cache read-heavy paths like catalog and pricing, and async queues to absorb bursts — scale-out with no single bottleneck. WU's platform leaned on SOA, web services, and Tibco for exactly this kind of decoupling."],
+    ["scale", "How does the store-as-fulfillment-hub model scale order volume without overloading store operations?", "Walmart-specific scaling tension.", "Using ~4,600 stores as fulfillment nodes is powerful but can overload store labor — I'd cap concurrent store-fulfilled orders against real associate capacity and route overflow to FCs and MFCs, with Symbotic-automated APDs raising that ceiling. My HEB retail background gives me feel for store-system constraints."],
+    ["scale", "How do you load-test and validate scale before a Black-Friday-class event?", "Readiness and proof, not hope.", "Load-test to projected peak plus margin against production-like data, run game-days, and freeze risky changes before the event. I treat readiness as a gated program — at HEB I built Splunk-based monitoring so we could actually see and prove CPU headroom."],
+    ["security", "How is payment and business-account data protected — tokenization, PCI scope, data isolation?", "Payments security depth.", "Tokenize at capture, minimize the PCI-scoped zone, encrypt in transit and at rest, and segment business-account data with strict access controls. Payments security is native to my background — WU's APN/DMA and Amex's card and risk systems all operated under strict data and compliance controls."],
+    ["security", "How is authn/authz handled for multi-user B2B accounts with role-based spend permissions?", "RBAC and least-privilege thinking.", "Role-based access with least privilege — admin, approver, buyer, viewer — enforced server-side and auditable. The DMA partner model had license and permission tiers governing what each partner could do, which is the same authorization thinking applied to a B2B account."],
+    ["security", "How does the Responsible AI pledge translate into guardrails for agentic checkout (UCP)?", "AI safety meets security.", "Agentic checkout over UCP needs purchase limits, confirmation steps for high-value actions, and a full audit trail of what the agent did on the user's behalf. Walmart's Responsible AI pledge — transparency and human oversight — is the right frame: the human stays in control of money decisions."],
+    ["security", "How are third-party sellers and partners isolated in the marketplace platform?", "Multi-tenant security awareness.", "Strong tenant isolation so one seller can't read or affect another's data, scoped API credentials, rate limiting, and anomaly detection. Integrating many partners on WU's platform taught me to keep partner boundaries hard and credentials tightly scoped."],
+    ["resilience", "How does the platform degrade gracefully if a cloud region or a core service (payments, inventory) fails?", "Graceful-degradation design.", "Design for partial failure — queue-and-retry if payments is degraded, conservative availability if inventory is stale — so the customer hits a recoverable problem, not an outage. Early risk identification and mitigation strategies were a standing part of how I ran programs."],
+    ["resilience", "How is the in-store edge used to keep stores operating during a cloud outage?", "Walmart-specific resiliency advantage.", "Walmart's in-store edge is a real resiliency moat — stores keep transacting on local compute during a region outage and reconcile when connectivity returns. I'd make sure checkout and pickup survive a cloud partition; my HEB and retail e-commerce experience helps me reason about store-critical paths."],
+    ["resilience", "What are the RTO/RPO targets for the order and payment paths?", "Disaster-recovery fluency.", "Order and payment are tier-0 — I'd target near-zero RPO via durable logs and an outbox, and a tight RTO with automated failover. I'd also ask what your current targets are, since the answer reveals platform maturity and where my payments-delivery experience can close a gap."],
+    ["resilience", "How are blameless postmortems and chaos testing practiced across these teams?", "Reliability culture, not just tooling.", "Blameless postmortems turn incidents into systemic fixes, and chaos and game-day testing prove resiliency before real failures do. I've run retrospectives to drive continuous improvement and then implemented the resulting changes — culture matters as much as tooling here."]
+  ];
+
+  const qChips = document.getElementById('qaChips');
+  const qBank = document.getElementById('qBank');
+  const qCount = document.getElementById('qCount');
+  let qFilter = 'all';
+
+  QCATS.forEach(([id, label]) => {
+    const c = document.createElement('button');
+    c.className = 'qa-chip';
+    c.textContent = label;
+    c.setAttribute('aria-pressed', String(id === 'all'));
+    c.addEventListener('click', () => { qFilter = id; renderQuestions(); });
+    c.dataset.cat = id;
+    qChips.appendChild(c);
+  });
+
+  function renderQuestions() {
+    Array.from(qChips.children).forEach(c => c.setAttribute('aria-pressed', String(c.dataset.cat === qFilter)));
+    const list = QUESTIONS.filter(q => qFilter === 'all' || q[0] === qFilter);
+    qCount.textContent = list.length + (list.length === 1 ? ' question' : ' questions');
+    qBank.innerHTML = '';
+    list.forEach(([cat, q, why, resp]) => {
+      const item = document.createElement('div');
+      item.className = 'q-item';
+      const c = document.createElement('p'); c.className = 'q-cat'; c.textContent = QCATLABEL[cat];
+      const t = document.createElement('p'); t.className = 'q-text'; t.textContent = q;
+      const w = document.createElement('p'); w.className = 'q-why'; w.textContent = why;
+      const tg = document.createElement('button'); tg.className = 'q-toggle'; tg.setAttribute('aria-expanded', 'false');
+      tg.innerHTML = 'Your take <span class="q-arrow">\u25BC</span>';
+      const body = document.createElement('div'); body.className = 'q-resp-body';
+      const rt = document.createElement('p'); rt.className = 'q-resp-text'; rt.textContent = resp;
+      body.appendChild(rt);
+      tg.addEventListener('click', () => {
+        const open = tg.getAttribute('aria-expanded') === 'true';
+        tg.setAttribute('aria-expanded', String(!open));
+        body.classList.toggle('open', !open);
+      });
+      item.append(c, t, w, tg, body);
+      qBank.appendChild(item);
+    });
+  }
+  renderQuestions();
+
+  /* ====== Game Day ====== */
+  const CHECKLISTS = [
+    { title: "The night before", items: [
+      "Re-read the Retail Services JD and your four-responsibility talking points",
+      "Run the Flashcards once \u2014 all 10 decks; shuffle the weak ones",
+      "Say your top 3 wins out loud: 17-country launch, Amex Pegasus, HEB $90K",
+      "Skim the Walmart highlights below: super agents, UCP, WFS, store-as-hub",
+      "Confirm logistics \u2014 time, format, video link or address, parking",
+      "Lay out your outfit; charge laptop and phone to 100%",
+      "Print 3 copies of your resume",
+      "Set two alarms",
+      "Sleep 7\u20138 hours \u2014 non-negotiable"
+    ]},
+    { title: "Morning of", items: [
+      "Eat a real breakfast",
+      "Re-read your Confidence Statement (below)",
+      "Review the four JD responsibilities one final time",
+      "Test camera and mic; join 10 minutes early (or arrive 15 early in person)",
+      "Have water, notepad, pen, resume, and Questions to Ask ready",
+      "Phone on silent"
+    ]},
+    { title: "In the room", items: [
+      "Greet each panelist by name",
+      "Pause before answering \u2014 silence signals confidence",
+      "Use STAR: lead with your action, end with a quantified result",
+      "Name Walmart specifics naturally \u2014 WFS, Walmart Connect, UCP, store-as-hub",
+      "Tie answers to 'innovation and AI' and 'high tech with high empathy'",
+      "End each answer with one crisp sentence",
+      "Ask one sharp question per segment from Questions to Ask"
+    ]}
+  ];
+
+  const clRoot = document.getElementById('checklists');
+  if (clRoot) {
+    CHECKLISTS.forEach(cl => {
+      const card = document.createElement('div'); card.className = 'checklist';
+      const head = document.createElement('div'); head.className = 'cl-head';
+      const h = document.createElement('h4'); h.textContent = cl.title;
+      const cnt = document.createElement('span'); cnt.className = 'cl-count';
+      head.append(h, cnt); card.appendChild(head);
+      let done = 0;
+      const update = () => { cnt.textContent = done + ' / ' + cl.items.length + ' done'; };
+      cl.items.forEach(txt => {
+        const row = document.createElement('label'); row.className = 'cl-row';
+        const box = document.createElement('input'); box.type = 'checkbox';
+        const sp = document.createElement('span'); sp.textContent = txt;
+        box.addEventListener('change', () => {
+          row.classList.toggle('done', box.checked);
+          done += box.checked ? 1 : -1; update();
+        });
+        row.append(box, sp); card.appendChild(row);
+      });
+      update(); clRoot.appendChild(card);
+    });
+  }
+
+  const WINS = [
+    ["Large-program delivery \u00b7 stakeholder alignment", "17-country product launch (Western Union)", "Drove the APN and Digital Master Agent programs end-to-end, aligned business and engineering on a KPI-based roadmap, resolved functional-leader conflicts, and delivered the 2017 goal of launching across 17 countries."],
+    ["Payments system design \u00b7 metrics", "Account Payout Network", "Introduced real-time account validation to cut transaction rejects and targeted a per-payout cost under $1, with a faster, more flexible partner-integration model."],
+    ["B2B platform \u00b7 partner onboarding \u00b7 monetization", "Digital Master Agent platform", "Built a reusable platform with 'out-of-the-box' partner APIs plus custom and branded options, pay-in / pay-out, risk assessment, and configurable revenue recognition."],
+    ["Consolidation \u00b7 multivendor scale", "Amex Pegasus A/R consolidation", "Consolidated global accounts-receivable systems while managing 4 vendor teams and 92 onsite/offshore resources."],
+    ["PMO / governance maturity \u00b7 process improvement", "Amex TCM governance overhaul", "Introduced risk-based governance (PCA), delivering 20% faster TCM completion, 40% documentation reduction, and 30% better BSD response time."],
+    ["Retail systems \u00b7 cost reduction \u00b7 phased delivery", "HEB DB2 to Oracle migration", "Led a phased migration to lower mainframe total cost of ownership; delivered phase 1 early for $90K savings with Splunk-based monitoring."],
+    ["Continuous improvement \u00b7 team leadership", "Agile transformation", "Moved teams from waterfall to Agile, brought conflicting functional teams onto a single Scrum board, and lifted sprint efficiency by about 10 story points."]
+  ];
+  const winBank = document.getElementById('winBank');
+  if (winBank) {
+    WINS.forEach(([useFor, title, body]) => {
+      const it = document.createElement('div'); it.className = 'q-item';
+      const c = document.createElement('p'); c.className = 'q-cat'; c.textContent = useFor;
+      const t = document.createElement('p'); t.className = 'q-text'; t.textContent = title;
+      const b = document.createElement('p'); b.className = 'q-resp-text'; b.style.marginTop = '6px'; b.textContent = body;
+      it.append(c, t, b); winBank.appendChild(it);
+    });
+  }
+
+  const HIGHLIGHTS = [
+    ["Your team", "Retail Services / Walmart Business (B2B) \u2014 business-friendly purchasing, onboarding & marketing, support & operations, engagement & monetization."],
+    ["Leaders", "John Furner, CEO ('innovation and AI'); Suresh Kumar, Global CTO ('high tech with high empathy')."],
+    ["AI", "Sparky, Associate, Supplier (Marty) and Developer super agents; Wallaby retail LLM; Element MLOps; UCP agentic commerce, co-developed with Google."],
+    ["Commerce & services", "Marketplace (200k+ sellers), WFS, Walmart Connect (ads +46%), Walmart+ (membership >$4.3B), GoLocal, Spark, Wing drones."],
+    ["Fulfillment & automation", "Store-as-hub (90% of Americans within 10 miles); Symbotic automation targeting ~65% of stores and ~55% of FC volume by FY2026."],
+    ["Scale", "FY2026 revenue >$700B; global eCommerce >$150B (+24%)."],
+    ["Culture", "Everyday Low Price; four values \u2014 Service, Respect, Excellence, Integrity."]
+  ];
+  const hlList = document.getElementById('hlList');
+  if (hlList) {
+    HIGHLIGHTS.forEach(([k, v]) => {
+      const li = document.createElement('li');
+      const b = document.createElement('b'); b.textContent = k + ': ';
+      li.appendChild(b); li.appendChild(document.createTextNode(v));
+      hlList.appendChild(li);
+    });
+  }
+
+</script>
+</body>
+</html>
