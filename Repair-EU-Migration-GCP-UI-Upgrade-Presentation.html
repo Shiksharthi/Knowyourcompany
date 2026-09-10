@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repair EU Migration to GCP and UI Upgrade - Project Summary</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+            padding: 60px 80px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .slide h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #ffd700;
+            border-bottom: 3px solid #ffd700;
+            padding-bottom: 10px;
+        }
+
+        .slide h3 {
+            font-size: 1.8em;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            color: #87ceeb;
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            color: #ddd;
+            margin-top: 10px;
+        }
+
+        .content {
+            font-size: 1.3em;
+            line-height: 1.8;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 1.1em;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        th {
+            background: rgba(255,215,0,0.3);
+            color: #fff;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .metric-box {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            padding: 20px 30px;
+            margin: 10px 20px 10px 0;
+            border-radius: 10px;
+            border-left: 5px solid #ffd700;
+        }
+
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .metric-label {
+            font-size: 1.1em;
+            color: #ddd;
+            margin-top: 5px;
+        }
+
+        .bullet-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .bullet-list li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        .bullet-list li:before {
+            content: "▸";
+            color: #ffd700;
+            font-size: 1.5em;
+            position: absolute;
+            left: 0;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid #fff;
+            color: #fff;
+            padding: 12px 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: rgba(255,215,0,0.3);
+            border-color: #ffd700;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            font-size: 1.2em;
+            color: #ddd;
+            z-index: 1000;
+        }
+
+        .chart-container {
+            display: flex;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .chart {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .bar {
+            background: rgba(255,215,0,0.6);
+            height: 30px;
+            margin: 10px 0;
+            border-radius: 5px;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .bar:hover {
+            background: rgba(255,215,0,0.8);
+        }
+
+        .bar-label {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: bold;
+            color: #000;
+        }
+
+        .bar-value {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .highlight {
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .key-insight {
+            background: rgba(255,215,0,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #ffd700;
+            margin: 15px 0;
+        }
+
+        .key-insight h4 {
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>Repair EU Migration to GCP and UI Upgrade</h1>
+            <div class="subtitle">Project Analytics & Summary Report</div>
+            <div class="subtitle" style="margin-top: 40px;">Project Key: LSD</div>
+            <div class="subtitle">Analysis Date: August 4, 2026</div>
+            <div style="margin-top: 60px; font-size: 1.2em; color: #ddd;">
+                Comprehensive analysis of 4,128 tickets across 89 Epics
+            </div>
+        </div>
+
+        <!-- Slide 2: Executive Summary -->
+        <div class="slide">
+            <h2>Executive Summary</h2>
+            <div class="content">
+                <div class="metric-box">
+                    <div class="metric-value">4,128</div>
+                    <div class="metric-label">Total Tickets</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value">89</div>
+                    <div class="metric-label">Epics</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value">52.8%</div>
+                    <div class="metric-label">Complete</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value">481</div>
+                    <div class="metric-label">Bugs</div>
+                </div>
+            </div>
+            <div class="content" style="margin-top: 40px;">
+                <p>The project demonstrates a comprehensive migration effort with significant focus on quality assurance (36% Test tickets) and customer experience in the European market.</p>
+            </div>
+        </div>
+
+        <!-- Slide 3: Issue Type Breakdown -->
+        <div class="slide">
+            <h2>Issue Type Breakdown</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Issue Type</th>
+                        <th>Count</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Test (QA-related)</strong></td>
+                        <td>1,490</td>
+                        <td class="highlight">36.1%</td>
+                    </tr>
+                    <tr>
+                        <td>Task</td>
+                        <td>801</td>
+                        <td>19.4%</td>
+                    </tr>
+                    <tr>
+                        <td>Feature</td>
+                        <td>500</td>
+                        <td>12.1%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bug</strong></td>
+                        <td>481</td>
+                        <td>11.7%</td>
+                    </tr>
+                    <tr>
+                        <td>Sub-task</td>
+                        <td>396</td>
+                        <td>9.6%</td>
+                    </tr>
+                    <tr>
+                        <td>Infrastructure</td>
+                        <td>292</td>
+                        <td>7.1%</td>
+                    </tr>
+                    <tr>
+                        <td>Epic</td>
+                        <td>89</td>
+                        <td>2.2%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Slide 4: Bug Analysis -->
+        <div class="slide">
+            <h2>Bug Analysis (481 Total Bugs)</h2>
+            <h3>Categorization by Type</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Bug Category</th>
+                        <th>Count</th>
+                        <th>% of Bugs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>UI/UX/Customer Experience</strong></td>
+                        <td>~366</td>
+                        <td class="highlight">76%</td>
+                    </tr>
+                    <tr>
+                        <td>API/Backend</td>
+                        <td>~29</td>
+                        <td>6%</td>
+                    </tr>
+                    <tr>
+                        <td>Connectivity</td>
+                        <td>~19</td>
+                        <td>4%</td>
+                    </tr>
+                    <tr>
+                        <td>Data/Database</td>
+                        <td>~19</td>
+                        <td>4%</td>
+                    </tr>
+                    <tr>
+                        <td>Authentication/Security</td>
+                        <td>~10</td>
+                        <td>2%</td>
+                    </tr>
+                    <tr>
+                        <td>Infrastructure</td>
+                        <td>~10</td>
+                        <td>2%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Slide 5: Common Bug Themes -->
+        <div class="slide">
+            <h2>Common Bug Themes</h2>
+            <ul class="bullet-list">
+                <li><strong>Localization Issues</strong> - German, French, Spanish, Italian translations</li>
+                <li><strong>Vehicle Search & Selection</strong> - Core functionality problems</li>
+                <li><strong>UI Components</strong> - Modal/popup display and behavior issues</li>
+                <li><strong>Third-party Integrations</strong> - BMW, TecAlliance, Vincario issues</li>
+                <li><strong>API Errors</strong> - 401, 404, 500, 502 error responses</li>
+                <li><strong>Responsive Design</strong> - Viewport and component loading failures</li>
+            </ul>
+        </div>
+
+        <!-- Slide 6: Development Metrics -->
+        <div class="slide">
+            <h2>Development Metrics</h2>
+            <h3>Ticket Completion Times</h3>
+            <div class="content">
+                <div class="metric-box">
+                    <div class="metric-value">29.8</div>
+                    <div class="metric-label">Average Days</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value">16</div>
+                    <div class="metric-label">Median Days</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value">0.5 - 173</div>
+                    <div class="metric-label">Range (Days)</div>
+                </div>
+            </div>
+            <div class="content" style="margin-top: 40px;">
+                <p><strong>Analysis:</strong> The median completion time of 16 days indicates most tickets complete within 2-3 weeks. However, complex tickets can extend up to 6 months, showing significant variability in scope and complexity.</p>
+            </div>
+        </div>
+
+        <!-- Slide 7: Tickets by Category -->
+        <div class="slide">
+            <h2>Tickets by Category</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Count</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Data Migration</strong></td>
+                        <td>~1,459</td>
+                        <td>Referenced in summaries/descriptions</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dev Tickets</strong></td>
+                        <td>~1,310</td>
+                        <td>Tasks + Features + Dev Spikes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>API Tickets</strong></td>
+                        <td>~867</td>
+                        <td>API development, integration, fixes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Infrastructure</strong></td>
+                        <td>292+</td>
+                        <td>Dedicated infrastructure + related bugs</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Test/QA</strong></td>
+                        <td>1,490</td>
+                        <td>36% of all tickets</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Slide 8: Current Status -->
+        <div class="slide">
+            <h2>Project Status Distribution</h2>
+            <div class="chart-container">
+                <div class="chart">
+                    <div style="margin-bottom: 20px; font-size: 1.2em;">Done: 2,181 tickets (52.8%)</div>
+                    <div class="bar" style="width: 52.8%;">
+                        <span class="bar-label">Done</span>
+                        <span class="bar-value">52.8%</span>
+                    </div>
+
+                    <div style="margin: 30px 0 20px 0; font-size: 1.2em;">Backlog/Planned: 1,644 tickets (39.8%)</div>
+                    <div class="bar" style="width: 39.8%; background: rgba(135,206,235,0.6);">
+                        <span class="bar-label">Backlog/Planned</span>
+                        <span class="bar-value">39.8%</span>
+                    </div>
+
+                    <div style="margin: 30px 0 20px 0; font-size: 1.2em;">In Progress/Verify: 121 tickets (2.9%)</div>
+                    <div class="bar" style="width: 20%; background: rgba(144,238,144,0.6);">
+                        <span class="bar-label">In Progress</span>
+                        <span class="bar-value">2.9%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Key Insights (Part 1) -->
+        <div class="slide">
+            <h2>Key Insights</h2>
+            <div class="key-insight">
+                <h4>1. Heavy QA Investment</h4>
+                <p>Over 36% of tickets are Test-related, indicating thorough quality assurance processes to ensure reliability in production.</p>
+            </div>
+            <div class="key-insight">
+                <h4>2. UI Migration Complexity</h4>
+                <p>76% of bugs are frontend-related, suggesting the UI migration has been the most challenging aspect of the project.</p>
+            </div>
+            <div class="key-insight">
+                <h4>3. Project Maturity</h4>
+                <p>With 52.8% completion rate and consistent progress, the project is past the halfway mark.</p>
+            </div>
+        </div>
+
+        <!-- Slide 10: Key Insights (Part 2) -->
+        <div class="slide">
+            <h2>Key Insights (Continued)</h2>
+            <div class="key-insight">
+                <h4>4. Localization Complexity</h4>
+                <p>Significant number of bugs relate to multi-language support across 5 European languages, highlighting internationalization challenges.</p>
+            </div>
+            <div class="key-insight">
+                <h4>5. Third-party Integration Challenges</h4>
+                <p>Notable issues with BMW, Vincario, and TecAlliance integrations requiring ongoing attention.</p>
+            </div>
+            <div class="key-insight">
+                <h4>6. Completion Time Variability</h4>
+                <p>Wide range in ticket completion times (0.5 to 173 days) suggests complexity varies significantly across different work streams.</p>
+            </div>
+        </div>
+
+        <!-- Slide 11: Epic Coverage -->
+        <div class="slide">
+            <h2>Epic Coverage (89 Total)</h2>
+            <div class="two-column">
+                <div>
+                    <ul class="bullet-list">
+                        <li>GEN3 EU Production & Staging Deployment</li>
+                        <li>Code Review Remediation for multiple services</li>
+                        <li>Standalone Microservices (Vincario, BMW, TecAlliance)</li>
+                        <li>User Service & Subscription Service</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="bullet-list">
+                        <li>Infrastructure Builds for multiple services</li>
+                        <li>Frontend Implementation & Refactoring</li>
+                        <li>Authentication & Integration (Ping, Akamai, Redis, Apigee)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Recommendations -->
+        <div class="slide">
+            <h2>Recommendations</h2>
+            <ul class="bullet-list">
+                <li><strong>Address UI/UX Quality</strong> - With 76% of bugs in frontend, consider dedicated UI quality sprint</li>
+                <li><strong>Localization Testing</strong> - Implement comprehensive multi-language testing automation</li>
+                <li><strong>Third-party Integration</strong> - Establish stronger integration testing for external services</li>
+                <li><strong>Completion Time Analysis</strong> - Review tickets taking >60 days to identify and mitigate blockers</li>
+                <li><strong>Knowledge Sharing</strong> - Document solutions for common bug patterns to prevent recurrence</li>
+            </ul>
+        </div>
+
+        <!-- Slide 13: Conclusion -->
+        <div class="slide">
+            <h2>Conclusion</h2>
+            <div class="content">
+                <p style="font-size: 1.4em; margin-bottom: 30px;">
+                    The <span class="highlight">Repair EU Migration to GCP and UI Upgrade</span> project demonstrates solid progress with <span class="highlight">52.8% completion</span> across <span class="highlight">4,128 tickets</span>.
+                </p>
+                <div class="key-insight">
+                    <h4>Strengths</h4>
+                    <p>Strong QA focus, comprehensive epic coverage, and systematic approach to cloud migration and UI modernization.</p>
+                </div>
+                <div class="key-insight">
+                    <h4>Focus Areas</h4>
+                    <p>UI/UX quality improvements, localization refinement, and third-party integration stability.</p>
+                </div>
+                <p style="margin-top: 40px; font-size: 1.2em;">
+                    Project is well-positioned for successful delivery with continued focus on quality and customer experience.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-number">
+        <span id="current-slide">1</span> / <span id="total-slides">13</span>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="previousSlide()">← Previous</button>
+        <button class="btn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function previousSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                previousSlide();
+            }
+        });
+
+        // Touch support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) {
+                nextSlide();
+            } else if (touchEndX - touchStartX > 50) {
+                previousSlide();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,402 @@
+﻿[
+    {
+        "key":  "EMUU-76",
+        "summary":  "Disable Google Analytics from Global Repair product.(Deploy \u0026 test)",
+        "status":  "Done",
+        "type":  "Support",
+        "priority":  "Medium",
+        "assignee":  "Naval Kishor"
+    },
+    {
+        "key":  "EMUU-74",
+        "summary":  "11. Global Diagnostic Intelligence",
+        "status":  "Review",
+        "type":  "Epic",
+        "priority":  "Medium",
+        "assignee":  "Unassigned"
+    },
+    {
+        "key":  "EMUU-73",
+        "summary":  "Global Repair - Google Analytics Implementation",
+        "status":  "Done",
+        "type":  "Support",
+        "priority":  "Medium",
+        "assignee":  "Naval Kishor"
+    },
+    {
+        "key":  "EMUU-72",
+        "summary":  "Global Repair - Google Analytics",
+        "status":  "Backlog",
+        "type":  "Support",
+        "priority":  "Medium",
+        "assignee":  "Naval Kishor"
+    },
+    {
+        "key":  "EMUU-71",
+        "summary":  "Implement account-svc endpoint to fetch licenseKey based on sstpin",
+        "status":  "Cancelled",
+        "type":  "Technical Debt",
+        "priority":  "High",
+        "assignee":  "Unassigned"
+    },
+    {
+        "key":  "EMUU-70",
+        "summary":  "Store product info in cache on application startup",
+        "status":  "Backlog",
+        "type":  "Technical Debt",
+        "priority":  "High",
+        "assignee":  "Unassigned"
+    },
+    {
+        "key":  "EMUU-69",
+        "summary":  "Global Repair - Track and execute UI test cases for frontend code quality",
+        "status":  "Planned",
+        "type":  "Support",
+        "priority":  "Medium",
+        "assignee":  "Naval Kishor"
+    },
+    {
+        "key":  "EMUU-68",
+        "summary":  "Global Repair - Akamai",
+        "status":  "Done",
+        "type":  "Support",
+        "priority":  "Medium",
+        "assignee":  "Naval Kishor"
+    },
+    {
+        "key":  "EMUU-67",
+        "summary":  "React Training and Sample Project HandsOn",
+        "status":  "Done",
+        "type":  "Enhancement",
+        "priority":  "Medium",
+        "assignee":  "Rishika Sharma"
+    },
+    {
+        "key":  "EMUU-66",
+        "summary":  " React Training and Sample Project HandsOn",
+        "status":  "Done",
+        "type":  "Enhancement",
+        "priority":  "Medium",
+        "assignee":  "Himanshu Sharma"
+    },
+    {
+        "key":  "EMUU-65",
+        "summary":  "Learn React Basics and Build CRUD Application with MongoDB, Swagger, and Sonar",
+        "status":  "Done",
+        "type":  "Task",
+        "priority":  "Medium",
+        "assignee":  "Ashish Kumar"
+    },
+    {
+        "key":  "EMUU-64",
+        "summary":  "React Training and Sample Project HandsOn",
+        "status":  "Done",
+        "type":  "Enhancement",
+        "priority":  "Medium",
+        "assignee":  "Tanmay Verma"
+    },
+    {
+        "key":  "EMUU-63",
+        "summary":  "Restore permission_role,permissions, module_role tables on staging",
+        "status":  "Backlog",
+        "type":  "Task",
+        "priority":  "Medium",
+        "assignee":  "Priya Sharma"
+    },
+    {
+        "key":  "EMUU-62",
+        "summary":  "code review - partner-integration-svc",
+        "status":  "Cancelled",
+        "type":  "Task",
+        "priority":  "Medium",
+        "assignee":  "Unassigned"
+    },
+    {
+        "key":  "EMUU-61",
+        "summary":  "code review -sst-integration-svc",
+        "status":  "Backlog",
+        "type":  "Task",
+        "priority":  "Medium",
+        "assignee":  "Ashutosh, Ashutosh"
+    },
+    {
+        "key":  "EMUU-60",
+        "summary":  "code review - account-svc",
+        "status":  "Backlog",
+        "type":  "Task",
+        "priority":  "Medium",
+        "assignee":  "Ashish Kumar"
+    },
+    {
+        "key":  "EMUU-59",
+        "summary":  "code review - user-mgmt-svc",
+        "status":  "Backlog",
+        "type":  "Task",
+        "priority":  "Medium",
+        "assignee":  "Ashish Kumar"
+    },
+    {
+        "key":  "EMUU-58",
+        "summary":  "code review - subscription-mgmt-svc",
+        "status":  "Done",
+        "type":  "Task",
+        "priority":  "Medium",
+        "assignee":  "Ashish Kumar"
+    },
+    {
+        "key":  "EMUU-57",
+        "summary":  "code review - platform-data-access-svc",
+        "status":  "Done",
+        "type":  "Task",
+        "priority":  "Medium",
+        "assignee":  "Priya Sharma"
+    },
+    {
+        "key":  "EMUU-56",
+        "summary":  "code review - tecalliance-svc",
+        "status":  "Done",
+        "type":  "Task",
+        "priority":  "Medium",
+        "assignee":  "Tanmay Verma"
+    },
+    {
+        "key":  "EMUU-55",
+        "summary":  "code review - bmw-svc",
+        "status":  "In Progress",
+        "type":  "Task",
+        "priority":  "Medium",
+        "assignee":  "Himanshu Sharma"
+    },
+    {
+        "key":  "EMUU-54",
+        "summary":  "  code review - vincario-svc",
+        "status":  "Done",
+        "type":  "Task",
+        "priority":  "Medium",
+        "assignee":  "Ashish Kumar"
+    },
+    {
+        "key":  "EMUU-53",
+        "summary":  "  code review - ms-integration-svc",
+        "status":  "Backlog",
+        "type":  "Task",
+        "priority":  "Medium",
+        "assignee":  "Unassigned"
+    },
+    {
+        "key":  "EMUU-52",
+        "summary":  " code review - data-account-svc",
+        "status":  "Backlog",
+        "type":  "Task",
+        "priority":  "Medium",
+        "assignee":  "Ashish Kumar"
+    },
+    {
+        "key":  "EMUU-51",
+        "summary":  " code review - data-subscription-svc",
+        "status":  "Backlog",
+        "type":  "Task",
+        "priority":  "Medium",
+        "assignee":  "Ashish Kumar"
+    },
+    {
+        "key":  "EMUU-50",
+        "summary":  "code review - data-user-svc",
+        "status":  "Backlog",
+        "type":  "Task",
+        "priority":  "Medium",
+        "assignee":  "Ashish Kumar"
+    },
+    {
+        "key":  "EMUU-48",
+        "summary":  "[ALLDATA]- [BMW] Provide the BMW i18n property files",
+        "status":  "Done",
+        "type":  "Enhancement",
+        "priority":  "Medium",
+        "assignee":  "Himanshu Sharma"
+    },
+    {
+        "key":  "EMUU-47",
+        "summary":  "React Training - Ashish",
+        "status":  "Backlog",
+        "type":  "Task",
+        "priority":  "Medium",
+        "assignee":  "Ashish Kumar"
+    },
+    {
+        "key":  "EMUU-46",
+        "summary":  "10. Global Product Training ",
+        "status":  "Review",
+        "type":  "Epic",
+        "priority":  "Medium",
+        "assignee":  "Unassigned"
+    },
+    {
+        "key":  "EMUU-45",
+        "summary":  "Admin endpoints to clear vincario cache",
+        "status":  "Backlog",
+        "type":  "Enhancement",
+        "priority":  "Medium",
+        "assignee":  "Tanmay Verma"
+    },
+    {
+        "key":  "EMUU-44",
+        "summary":  "Spike: Research API Passthrough Integration for BMW Data with Microservices Approach",
+        "status":  "Backlog",
+        "type":  "Dev Spike",
+        "priority":  "High",
+        "assignee":  "Priya Sharma"
+    },
+    {
+        "key":  "EMUU-43",
+        "summary":  "Spike: Investigate vehicle access tracking based on content page views (excluding BMW) in New Platform ",
+        "status":  "Backlog",
+        "type":  "Dev Spike",
+        "priority":  "High",
+        "assignee":  "Unassigned"
+    },
+    {
+        "key":  "EMUU-42",
+        "summary":  "Spike: Investigate adding BYD as a new brand in the new platform",
+        "status":  "Blocked",
+        "type":  "Dev Spike",
+        "priority":  "Medium",
+        "assignee":  "Ashish Kumar"
+    },
+    {
+        "key":  "EMUU-41",
+        "summary":  "Spike: Investigate Logging and Counting Logic for BMW Service (in new platform) ",
+        "status":  "Backlog",
+        "type":  "Dev Spike",
+        "priority":  "High",
+        "assignee":  "Himanshu Sharma"
+    },
+    {
+        "key":  "EMUU-36",
+        "summary":  "Support 66 degree QA for Global Product",
+        "status":  "Backlog",
+        "type":  "QA Testing",
+        "priority":  "Medium",
+        "assignee":  "Unassigned"
+    },
+    {
+        "key":  "EMUU-35",
+        "summary":  "Global Repair - Upskill on React for Global Repair UI development",
+        "status":  "Done",
+        "type":  "Support",
+        "priority":  "Medium",
+        "assignee":  "Naval Kishor"
+    },
+    {
+        "key":  "EMUU-34",
+        "summary":  "Global Repair -Support 66Degrees on EU MFEs and UI architecture",
+        "status":  "Backlog",
+        "type":  "Support",
+        "priority":  "Medium",
+        "assignee":  "Naval Kishor"
+    },
+    {
+        "key":  "EMUU-33",
+        "summary":  "Global Repair - Explore and document current EU product architecture",
+        "status":  "Planned",
+        "type":  "Support",
+        "priority":  "Medium",
+        "assignee":  "Naval Kishor"
+    },
+    {
+        "key":  "EMUU-32",
+        "summary":  "Global Repair - Review Business System design wit BA and Design Team",
+        "status":  "Done",
+        "type":  "Support",
+        "priority":  "Medium",
+        "assignee":  "Naval Kishor"
+    },
+    {
+        "key":  "EMUU-31",
+        "summary":  "Global Repair - Enforce React Coding Standards Across Global Repair MFEs",
+        "status":  "Backlog",
+        "type":  "Dev Spike",
+        "priority":  "Medium",
+        "assignee":  "Naval Kishor"
+    },
+    {
+        "key":  "EMUU-30",
+        "summary":  "Global Repair - Review and Define React Coding Standards for Global Repair MFEs",
+        "status":  "Done",
+        "type":  "Dev Spike",
+        "priority":  "Medium",
+        "assignee":  "Naval Kishor"
+    },
+    {
+        "key":  "EMUU-29",
+        "summary":  "Global Repair - Review and Define React Coding Standards for Global Repair MFEs",
+        "status":  "Cancelled",
+        "type":  "Dev Spike",
+        "priority":  "Medium",
+        "assignee":  "Unassigned"
+    },
+    {
+        "key":  "EMUU-27",
+        "summary":  "Publish Keycloak target architecture diagrams (global)",
+        "status":  "Backlog",
+        "type":  "Dev Spike",
+        "priority":  "Medium",
+        "assignee":  "Mohan, Sivakumar"
+    },
+    {
+        "key":  "EMUU-26",
+        "summary":  "EU-specific gaps \u0026 parity tracking",
+        "status":  "Backlog",
+        "type":  "Dev Spike",
+        "priority":  "Medium",
+        "assignee":  "Unassigned"
+    },
+    {
+        "key":  "EMUU-25",
+        "summary":  "Implement prioritized API Stubs to unblock EU React UI",
+        "status":  "Backlog",
+        "type":  "Dev Spike",
+        "priority":  "Medium",
+        "assignee":  "Unassigned"
+    },
+    {
+        "key":  "EMUU-24",
+        "summary":  "Define API Technology Architecture \u0026 Integration Strategy",
+        "status":  "Backlog",
+        "type":  "Dev Spike",
+        "priority":  "Medium",
+        "assignee":  "Unassigned"
+    },
+    {
+        "key":  "EMUU-23",
+        "summary":  "Define caching requirements \u0026 Redis necessity evaluation",
+        "status":  "Backlog",
+        "type":  "Dev Spike",
+        "priority":  "Medium",
+        "assignee":  "Hari Pillai"
+    },
+    {
+        "key":  "EMUU-22",
+        "summary":  "Define EU current-state storage inventory (content + structured)",
+        "status":  "Backlog",
+        "type":  "Dev Spike",
+        "priority":  "Medium",
+        "assignee":  "Hari Pillai"
+    },
+    {
+        "key":  "EMUU-18",
+        "summary":  "08. Product Security",
+        "status":  "Review",
+        "type":  "Epic",
+        "priority":  "Medium",
+        "assignee":  "Unassigned"
+    },
+    {
+        "key":  "EMUU-17",
+        "summary":  "07. Product Globalization",
+        "status":  "Review",
+        "type":  "Epic",
+        "priority":  "Medium",
+        "assignee":  "Unassigned"
+    }
+]
